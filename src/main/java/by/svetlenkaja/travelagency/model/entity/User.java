@@ -10,9 +10,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id_role")
-    private Role role;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "role_type", referencedColumnName = "type"),
+            @JoinColumn(name = "role_code", referencedColumnName = "code")
+    })
+    private Classifier role;
+
     @Column
     private String surname;
     @Column
