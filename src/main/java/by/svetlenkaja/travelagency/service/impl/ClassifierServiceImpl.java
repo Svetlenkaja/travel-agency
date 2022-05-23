@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 public class ClassifierServiceImpl implements ClassifierService {
 
     private final ClassifierRepository classifierRepository;
+
     @Override
     public Iterable<Classifier> getTourType() {
-
-        return classifierRepository.findAll();
+        return classifierRepository.findByType(3);
     }
 }
