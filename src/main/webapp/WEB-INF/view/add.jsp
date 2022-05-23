@@ -1,14 +1,15 @@
-<%@ page import="by.svetlenkaja.constant.FoodType" %>
-<%@ page import="by.svetlenkaja.constant.TransportType" %>
-<%@ page import="by.svetlenkaja.constant.TourType" %>
+<%--<%@ page import="by.svetlenkaja.constant.FoodType" %>--%>
+<%--<%@ page import="by.svetlenkaja.constant.TransportType" %>--%>
+<%--<%@ page import="by.svetlenkaja.constant.TourType" %>--%>
+<%@ page import="by.svetlenkaja.travelagency.model.entity.Classifier" %>
 <%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-    pageContext.setAttribute("tourTypes", TourType.values());
-    pageContext.setAttribute("foodTypes", FoodType.values());
-    pageContext.setAttribute("transportTypes", TransportType.values());
+//    pageContext.setAttribute("tourTypes", TourType.values());
+//    pageContext.setAttribute("foodTypes", FoodType.values());
+//    pageContext.setAttribute("transportTypes", TransportType.values());
 %>
 <!DOCTYPE html>
 <html>
@@ -77,7 +78,7 @@
     </div>
     <div>
         <c:forEach items="${tourTypes}" var="tourType" >
-            <input class="input-text" type="radio" name="radioTourType" onclick="chooseTour(this);" value=${tourType.name()}> ${TourType.getName(tourType.name())}
+            <input class="input-text" type="radio" name="radioTourType" onclick="chooseTour(this);" value=${tourType.getName()}> ${tourType.getName()}
         </c:forEach>
     </div>
     <div id="div-info" class="div-center"  style="display: none">
@@ -99,20 +100,20 @@
             <input class="input-text input-text-small" type="text" name="cost" ><br />
         </label>
         <label>Тип питания:
-            <select class="input-text" name="foodType" required>
-                <option disabled value="" selected>Выберите тип питания</option>
-                <c:forEach items = "${foodTypes}" var = "foodtype" >
-                    <option value = ${foodtype.name()} >
-                            ${FoodType.getFoodTypeFullName(foodtype)}
-                    </option>
-                </c:forEach>
-            </select><br />
+<%--            <select class="input-text" name="foodType" required>--%>
+<%--                <option disabled value="" selected>Выберите тип питания</option>--%>
+<%--                <c:forEach items = "${foodTypes}" var = "foodtype" >--%>
+<%--                    <option value = ${foodtype.name()} >--%>
+<%--                            ${FoodType.getFoodTypeFullName(foodtype)}--%>
+<%--                    </option>--%>
+<%--                </c:forEach>--%>
+<%--            </select><br />--%>
         </label>
         <div>
             <label>Тип транспорта: </Br>
-                <c:forEach items="${transportTypes}" var="transportType">
-                    <input class="input-text" type="radio" name="transportType" value=${transportType.name()}> ${TransportType.getName(transportType.name())}
-                </c:forEach>
+<%--                <c:forEach items="${transportTypes}" var="transportType">--%>
+<%--                    <input class="input-text" type="radio" name="transportType" value=${transportType.name()}> ${TransportType.getName(transportType.name())}--%>
+<%--                </c:forEach>--%>
             </label>
         </div>
     </div>
