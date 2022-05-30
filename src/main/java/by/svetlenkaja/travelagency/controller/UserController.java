@@ -1,43 +1,53 @@
 package by.svetlenkaja.travelagency.controller;
 
+import by.svetlenkaja.travelagency.constant.TypeClassifier;
+import by.svetlenkaja.travelagency.editor.ClassifierEditor;
 import by.svetlenkaja.travelagency.model.entity.Classifier;
+
 import by.svetlenkaja.travelagency.model.entity.User;
+import by.svetlenkaja.travelagency.service.ClassifierService;
 import by.svetlenkaja.travelagency.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ClassifierService classifierService;
 
     @GetMapping("/users")
-    public String getUsers(){
+    public String getUsers() {
         List<User> users = userService.getAll();
         return "login";
     }
 
-    @GetMapping("/addUser")
+    @GetMapping("/createUser")
     public String addUserView(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("role", new Classifier());
+        model.addAttribute("roles", classifierService.getRoles());
         return "add-user";
     }
 
-    @PostMapping("/addUser")
-    public void addUser (@ModelAttribute("user") User user ){
-        Classifier role = new Classifier();
-        role.setType(2);
-        role.setCode(1);
-        user.setRole(role);
-        userService.addUser(user);
+    @InitBinder("user")
+    public void initBinder(WebDataBinder binder){
+//       binder.setDisallowedFields("role");
+     binder.registerCustomEditor(Classifier.class, new ClassifierEditor(TypeClassifier.ROLE.getType()));
     }
+
+    @PostMapping("/addUser")
+    public String addUser(@ModelAttribute("user") User user) {
+        userService.addUser(user);
+        return "home";
+    }
+
+
+
+
 }

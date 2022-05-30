@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public abstract class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    long id;
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "tour_type", referencedColumnName = "type"),

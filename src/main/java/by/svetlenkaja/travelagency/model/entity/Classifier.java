@@ -22,4 +22,12 @@ public class Classifier {
 
     @Column
     private String shortname;
+
+    public Classifier() {
+    }
+
+    public Classifier(int type, int code) {
+        this.type = type;
+        this.code = code;
+    }
 }
