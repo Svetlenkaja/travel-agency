@@ -26,4 +26,8 @@ public class User {
     private String patronymic;
     @Column
     private String login;
+    @Column
+    private String password;
+    @Transient
+    private String passwordConfirm;
 }
