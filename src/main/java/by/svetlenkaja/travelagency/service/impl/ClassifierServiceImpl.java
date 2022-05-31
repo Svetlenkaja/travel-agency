@@ -1,6 +1,6 @@
 package by.svetlenkaja.travelagency.service.impl;
 
-import by.svetlenkaja.travelagency.constant.TypeClassifier;
+import by.svetlenkaja.travelagency.constant.ClassifierType;
 import by.svetlenkaja.travelagency.model.entity.Classifier;
 import by.svetlenkaja.travelagency.model.repository.ClassifierRepository;
 import by.svetlenkaja.travelagency.service.ClassifierService;
@@ -18,7 +18,7 @@ public class ClassifierServiceImpl implements ClassifierService {
 
     @Override
     public List<Classifier> getTourTypes() {
-        return classifierRepository.findByType(TypeClassifier.TOUR.getType());
+        return classifierRepository.findByType(ClassifierType.TOUR.getType());
     }
 
     @Override
@@ -28,16 +28,16 @@ public class ClassifierServiceImpl implements ClassifierService {
 
     @Override
     public List<Classifier> getFoodTypes() {
-        return classifierRepository.findByType(TypeClassifier.FOOD.getType());
+        return classifierRepository.findByType(ClassifierType.FOOD.getType());
     }
 
     @Override
     public List<Classifier> getTransportTypes() {
-        return classifierRepository.findByType(TypeClassifier.TRANSPORT.getType());
+        return classifierRepository.findByType(ClassifierType.TRANSPORT.getType());
     }
 
     @Override
     public List<Classifier> getRoles() {
-        return classifierRepository.findByType(TypeClassifier.ROLE.getType());
+        return classifierRepository.findByType(ClassifierType.ROLE.getType());
     }
 }

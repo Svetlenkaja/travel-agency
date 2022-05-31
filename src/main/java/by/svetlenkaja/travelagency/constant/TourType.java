@@ -1,13 +1,15 @@
 package by.svetlenkaja.travelagency.constant;
 
 public enum TourType {
-    REST("Отдых"),
-    EXCURSION("Экскурссия"),
-    THERAPY("Оздоровление");
+    REST(1,"Отдых"),
+    EXCURSION(2, "Экскурссия"),
+    THERAPY(3,"Оздоровление");
 
+    final int code;
     final String name;
 
-    TourType(String name) {
+    TourType(int code, String name) {
+        this.code = code;
         this.name = name;
     }
 

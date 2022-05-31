@@ -1,6 +1,6 @@
 package by.svetlenkaja.travelagency.controller;
 
-import by.svetlenkaja.travelagency.constant.TypeClassifier;
+import by.svetlenkaja.travelagency.constant.ClassifierType;
 import by.svetlenkaja.travelagency.editor.ClassifierEditor;
 import by.svetlenkaja.travelagency.model.entity.Classifier;
 
@@ -38,7 +38,7 @@ public class UserController {
     @InitBinder("user")
     public void initBinder(WebDataBinder binder){
 //       binder.setDisallowedFields("role");
-     binder.registerCustomEditor(Classifier.class, new ClassifierEditor(TypeClassifier.ROLE.getType()));
+     binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.ROLE.getType()));
     }
 
     @PostMapping("/addUser")

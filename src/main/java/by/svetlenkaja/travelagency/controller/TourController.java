@@ -1,6 +1,7 @@
 package by.svetlenkaja.travelagency.controller;
 
-import by.svetlenkaja.travelagency.constant.TypeClassifier;
+import by.svetlenkaja.travelagency.constant.StateType;
+import by.svetlenkaja.travelagency.constant.ClassifierType;
 import by.svetlenkaja.travelagency.model.entity.Classifier;
 import by.svetlenkaja.travelagency.model.entity.RestTour;
 import by.svetlenkaja.travelagency.service.ClassifierService;
@@ -37,9 +38,10 @@ private final TourService tourService;
 
                 RestTour tour = new RestTour();
                 tour.setTypeTour(new Classifier(3, 1));
-                tour.setTransportTour(new Classifier(TypeClassifier.TRANSPORT.getType(), 1));
+                tour.setTransportTour(new Classifier(ClassifierType.TRANSPORT.getType(), 1));
                 tour.setNumberOfNights(numberOfNights);
-                tour.setFoodType(new Classifier(TypeClassifier.FOOD.getType(), 1));
+                tour.setFoodType(new Classifier(ClassifierType.FOOD.getType(), Integer.parseInt(foodType)));
+                tour.setStateType(new Classifier(ClassifierType.STATE.getType(), StateType.AVAILABLE.getCode()));
                 tourService.addRestTour(tour);
 
         return "home";

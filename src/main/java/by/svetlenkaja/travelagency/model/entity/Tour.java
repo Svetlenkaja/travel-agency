@@ -47,4 +47,11 @@ public abstract class Tour {
     })
     private Classifier stateType;
 
+    @Column(name="cost")
+    private int cost;
+
+    @Column(name="cost_with_discont")
+    private int costWithDiscont;
+
+
 }

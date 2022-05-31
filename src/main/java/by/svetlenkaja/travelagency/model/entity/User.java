@@ -5,11 +5,12 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
+@Table (name = "user")
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @ManyToOne
     @JoinColumns({
@@ -18,15 +19,15 @@ public class User {
     })
     private Classifier role;
 
-    @Column
+    @Column (name = "surname")
     private String surname;
-    @Column
+    @Column (name = "name")
     private String name;
-    @Column
+    @Column (name = "patronymic")
     private String patronymic;
-    @Column
+    @Column(name = "login")
     private String login;
-    @Column
+    @Column(name="password")
     private String password;
     @Transient
     private String passwordConfirm;

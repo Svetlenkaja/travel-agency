@@ -1,28 +1,34 @@
 package by.svetlenkaja.travelagency.constant;
 
 public enum FoodType {
-    RO("RO", "room only", 1),
-    BB("BB", "bed & breakfast", 2),
-    HB("HB","half board", 3),
-    FB("FB", "full board", 4),
-    AI("AI", "All inclusive", 5),
-    UAI("UAI", "ultra all inclusive", 6);
+    RO(1, "RO", "room only"),
+    BB(2, "BB", "bed & breakfast"),
+    HB(3, "HB","half board"),
+    FB(4, "FB", "full board"),
+    AI(5, "AI", "All inclusive"),
+    UAI(6, "UAI", "ultra all inclusive");
 
+    private final int code;
     private final String shortName;
     private final String fullName;
-    private final int rankCost;
 
-    FoodType(String shortName, String fullName, int rankCost) {
+
+    FoodType(int code, String shortName, String fullName)  {
+        this.code = code;
         this.shortName = shortName;
         this.fullName = fullName;
-        this.rankCost = rankCost;
+
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public String getFullName() {
         return fullName;
     }
 
-    public static String  getFoodTypeFullName(FoodType foodType) {
-        return foodType.getFullName();
-    }
+//    public static String  getFoodTypeFullName(FoodType foodType) {
+//        return foodType.getFullName();
+//    }
 }

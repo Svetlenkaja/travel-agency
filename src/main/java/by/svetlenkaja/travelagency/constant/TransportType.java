@@ -1,12 +1,21 @@
 package by.svetlenkaja.travelagency.constant;
 
 public enum TransportType {
-    AIRPLANE("Самолет"), TRAIN("Поезд"), BUS("Автобус"), SHIP("Лайнер");
+    AIRPLANE(1,"Самолет"),
+    TRAIN(2,"Поезд"),
+    BUS(3,"Автобус"),
+    SHIP(4, "Лайнер");
 
-    String name;
+    final int code;
+    final String name;
 
-    TransportType(String name) {
+    TransportType(int code, String name) {
+        this.code = code;
         this.name = name;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public String getName() {

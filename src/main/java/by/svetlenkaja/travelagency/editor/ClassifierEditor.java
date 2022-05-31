@@ -1,8 +1,6 @@
 package by.svetlenkaja.travelagency.editor;
 
-import by.svetlenkaja.travelagency.constant.TypeClassifier;
 import by.svetlenkaja.travelagency.model.entity.Classifier;
-import org.springframework.stereotype.Component;
 
 
 import java.beans.PropertyEditorSupport;
