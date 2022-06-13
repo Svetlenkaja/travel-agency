@@ -17,7 +17,6 @@ public enum FoodType {
         this.code = code;
         this.shortName = shortName;
         this.fullName = fullName;
-
     }
 
     public int getCode() {

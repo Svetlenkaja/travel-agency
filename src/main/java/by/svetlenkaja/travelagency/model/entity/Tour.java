@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,13 +20,13 @@ public abstract class Tour {
             @JoinColumn(name = "tour_type", referencedColumnName = "type"),
             @JoinColumn(name = "tour_code", referencedColumnName = "code")
     })
-    private Classifier typeTour;
+    private Classifier tourType;
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "transport_type", referencedColumnName = "type"),
             @JoinColumn(name = "transport_code", referencedColumnName = "code")
     })
-    private Classifier transportTour;
+    private Classifier transportType;
 
     @ManyToOne
     @JoinColumns({
@@ -35,7 +36,7 @@ public abstract class Tour {
     private Classifier foodType;
 
     @Column(name = "date_of_departure")
-    private LocalDate dateOfDeparture;
+    private LocalDateTime dateOfDeparture;
 
     @Column(name = "number_of_nights")
     private int numberOfNights;

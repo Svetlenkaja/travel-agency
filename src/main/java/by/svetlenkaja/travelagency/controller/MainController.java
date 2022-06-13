@@ -2,12 +2,25 @@ package by.svetlenkaja.travelagency.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MainController {
 
     @GetMapping("/")
-    public String home(){
-       return "home";
+    public String SignIn(){
+       return "login";
     }
+
+    @PostMapping("/login")
+    public String Login() {
+        //authorize
+        return "home";
+    }
+
+    @GetMapping("/home")
+    public String home(){
+        return "home";
+    }
+
 }

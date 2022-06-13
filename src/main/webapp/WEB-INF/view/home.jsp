@@ -22,9 +22,11 @@
             <div style="padding: 5px;">
                 <a href="${pageContext.request.contextPath}/createTour">Создать тур</a>
                 |
-                <a href="${pageContext.request.contextPath}/find">Подобрать тур</a>
+                <a href="${pageContext.request.contextPath}/tours">Каталог</a>
                 |
-                <a href="${pageContext.request.contextPath}/list">Каталог</a>
+                <a href="${pageContext.request.contextPath}/users">Пользователи</a>
+                |
+                <a href="${pageContext.request.contextPath}/personalTours">Мои туры</a>
             </div>
         </div>
     </body>

@@ -1,5 +1,7 @@
 package by.svetlenkaja.travelagency.constant;
 
+import by.svetlenkaja.travelagency.model.entity.Classifier;
+
 public enum TourType {
     REST(1,"Отдых"),
     EXCURSION(2, "Экскурссия"),

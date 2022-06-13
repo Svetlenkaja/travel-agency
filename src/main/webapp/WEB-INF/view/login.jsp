@@ -7,9 +7,9 @@
     <link type="text/css" rel="stylesheet" href="resources/css/login.css" />
 </head>
 <body>
-<sec:authorize access="isAuthenticated()">
-    <% response.sendRedirect("/"); %>
-</sec:authorize>
+<%--<sec:authorize access="isAuthenticated()">--%>
+<%--    <% response.sendRedirect("/"); %>--%>
+<%--</sec:authorize>--%>
 <form class="form" method="post" action="/login">
     <div>
         <div class="content">

@@ -1,6 +1,7 @@
 package by.svetlenkaja.travelagency.controller;
 
 import by.svetlenkaja.travelagency.constant.ClassifierType;
+import by.svetlenkaja.travelagency.constant.RoleType;
 import by.svetlenkaja.travelagency.editor.ClassifierEditor;
 import by.svetlenkaja.travelagency.model.entity.Classifier;
 
@@ -24,7 +25,7 @@ public class UserController {
     @GetMapping("/users")
     public String getUsers() {
         List<User> users = userService.getAll();
-        return "login";
+        return "users";
     }
 
     @GetMapping("/createUser")
@@ -37,17 +38,15 @@ public class UserController {
 
     @InitBinder("user")
     public void initBinder(WebDataBinder binder){
-//       binder.setDisallowedFields("role");
-     binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.ROLE.getType()));
+       binder.setDisallowedFields("role");
+//     binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.ROLE.getType()));
     }
 
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute("user") User user) {
+        user.setRole(new Classifier(ClassifierType.ROLE.getType(), RoleType.CLIENT.getCode()));
         userService.addUser(user);
         return "home";
     }
-
-
-
 
 }

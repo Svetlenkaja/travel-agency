@@ -1,6 +1,7 @@
 package by.svetlenkaja.travelagency.service.impl;
 
 import by.svetlenkaja.travelagency.exception.TourServiceException;
+import by.svetlenkaja.travelagency.model.entity.Hotel;
 import by.svetlenkaja.travelagency.model.entity.RestTour;
 import by.svetlenkaja.travelagency.model.entity.Tour;
 import by.svetlenkaja.travelagency.model.repository.TourRepository;
@@ -31,8 +32,18 @@ public class TourServiceImpl implements TourService {
             return tourRepository.save(tour);
         }
         catch (RuntimeException e){
-            LOGGER.error("Error add tour with data: ", tour.toString());
+            LOGGER.error("Error add tour with data: {}", tour.toString());
             throw new TourServiceException("Ошибка сохранения тура. Обратитесь к администратору.");
         }
+    }
+
+    @Override
+    public Tour getTourById(long id) {
+        return tourRepository.getById(id);
+    }
+
+    @Override
+    public Hotel getHotelById(long id) {
+        return null;
     }
 }
