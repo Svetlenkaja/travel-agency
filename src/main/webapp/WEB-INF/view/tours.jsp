@@ -53,17 +53,17 @@
         </tr>
         <c:forEach items="${tours}" var="tour" >
             <tr>
-                <td><a href="<c:url value="/tourShow?id=${tour.id}"/>">${tour.id}</a></td>
-                <td>${tour.tourType.name}</td>
+                <td><a href="<c:url value="/tour/${tour.id}"/>">${tour.id}</a></td>
+                <td>${tour.type.name}</td>
                 <td>
-                    <c:if test="${tour.tourType.code==1}">
-                        ${tour.hotel.resort.country.name}/${tour.hotel.resort.name}
-                    </c:if>
+<%--                    <c:if test="${tour.tourType.code==1}">--%>
+<%--                        ${tour.hotel.resort.country.name}/${tour.hotel.resort.name}--%>
+<%--                    </c:if>--%>
                 </td>
                 <td>${tour.dateOfDeparture}</td>
                 <td>${tour.numberOfNights}</td>
-                <td>${tour.foodType.name}</td>
-                <td>${tour.transportType.name}</td>
+                <td>${tour.food.name}</td>
+                <td>${tour.transport.name}</td>
                 <td>${tour.cost}</td>
                 <td>${tour.stateType.name}</td>
             <td><a href="<c:url value="/booking?id=${tour.id}"/>">Забронировать</a></td>

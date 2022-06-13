@@ -1,5 +1,7 @@
 package by.svetlenkaja.travelagency.constant;
 
+import java.util.stream.Stream;
+
 public enum TransportType {
     AIRPLANE(1,"Самолет"),
     TRAIN(2,"Поезд"),
@@ -24,5 +26,12 @@ public enum TransportType {
 
     public static String getName(TransportType transportType ) {
         return transportType.getName();
+    }
+
+    public static TransportType of(int code){
+        return Stream.of(TransportType.values())
+                .filter(t -> t.getCode() == code)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

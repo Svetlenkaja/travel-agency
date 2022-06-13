@@ -19,8 +19,11 @@
     </div>
     <spring_form:label path="tourType">Тип тура</spring_form:label>
     <br />
+<%--    <c:forEach items = "${tourTypes}" var = "type" >--%>
+<%--        <spring_form:radiobutton path="tourType" value="${type.code}" label="${type.name}"/>--%>
+<%--    </c:forEach>--%>
     <c:forEach items = "${tourTypes}" var = "type" >
-        <spring_form:radiobutton path="tourType" value="${type.code}" label="${type.name}"/>
+        <spring_form:radiobutton path="type" value="${type}" label="${type.getName()}"/>
     </c:forEach>
 <%--    <div>--%>
 <%--        <c:forEach items="${tourTypes}" var="tourType" >--%>
@@ -45,20 +48,23 @@
         <spring_form:label path="cost">Стоимость</spring_form:label>
         <spring_form:input class="input-text input-text-small" path="cost"/>
         <br />
-        <spring_form:label path="foodType">Тип питания</spring_form:label>
-        <spring_form:select path="foodType">
-            <spring_form:option value="3|0" label="Выберите тип питания"/>
+        <spring_form:label path="food">Тип питания</spring_form:label>
+        <spring_form:select path="food">
+            <spring_form:option value="0" label="Выберите тип питания"/>
             <c:forEach items = "${foodTypes}" var = "foodType" >
-                <spring_form:option value="${foodType.code}" label="${foodType.name}"/>
+                <spring_form:option value="${foodType}" label="${foodType.getFullName()}"/>
             </c:forEach>
 <%--            <spring_form:options items="${foodTypes}" itemValue="code" itemLabel="name"/>--%>
         </spring_form:select>
         <br />
-        <spring_form:label path="transportType">Тип транспорта</spring_form:label>
+        <spring_form:label path="transport">Тип транспорта</spring_form:label>
         <br />
         <c:forEach items = "${transportTypes}" var = "transport" >
-            <spring_form:radiobutton path="transportType" value="${transport.code}" label="${transport.name}"/>
+            <spring_form:radiobutton path="transport" value="${transport}" label="${transport.getName()}"/>
         </c:forEach>
+<%--        <c:forEach items = "${transportTypes}" var = "transport" >--%>
+<%--            <spring_form:radiobutton path="transportType" value="${transport.code}" label="${transport.name}"/>--%>
+<%--        </c:forEach>--%>
     </div>
     <div class="div-center">
         <button id="save-button" style="color: crimson; margin-top: 5px;" type="submit" value="Submit">Сохранить тур</button>

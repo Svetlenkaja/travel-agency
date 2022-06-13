@@ -1,5 +1,7 @@
 package by.svetlenkaja.travelagency.constant;
 
+import java.util.stream.Stream;
+
 public enum FoodType {
     RO(1, "RO", "room only"),
     BB(2, "BB", "bed & breakfast"),
@@ -9,13 +11,13 @@ public enum FoodType {
     UAI(6, "UAI", "ultra all inclusive");
 
     private final int code;
-    private final String shortName;
+    private final String name;
     private final String fullName;
 
 
-    FoodType(int code, String shortName, String fullName)  {
+    FoodType(int code, String name, String fullName)  {
         this.code = code;
-        this.shortName = shortName;
+        this.name = name;
         this.fullName = fullName;
     }
 
@@ -23,8 +25,19 @@ public enum FoodType {
         return code;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getFullName() {
         return fullName;
+    }
+
+    public static FoodType of(int code){
+        return Stream.of(FoodType.values())
+                .filter(t -> t.getCode() == code)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
 //    public static String  getFoodTypeFullName(FoodType foodType) {

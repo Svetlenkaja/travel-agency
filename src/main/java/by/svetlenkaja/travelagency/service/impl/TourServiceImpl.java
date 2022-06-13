@@ -2,7 +2,6 @@ package by.svetlenkaja.travelagency.service.impl;
 
 import by.svetlenkaja.travelagency.exception.TourServiceException;
 import by.svetlenkaja.travelagency.model.entity.Hotel;
-import by.svetlenkaja.travelagency.model.entity.RestTour;
 import by.svetlenkaja.travelagency.model.entity.Tour;
 import by.svetlenkaja.travelagency.model.repository.TourRepository;
 import by.svetlenkaja.travelagency.service.TourService;
@@ -27,7 +26,7 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public RestTour addRestTour(RestTour tour) {
+    public Tour addTour(Tour tour) {
         try {
             return tourRepository.save(tour);
         }
