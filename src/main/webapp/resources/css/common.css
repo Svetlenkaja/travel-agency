@@ -4,26 +4,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-.form{
-    max-width: 400px;
-    padding: 20px;
-    margin: 0 auto;
-    background-color: #fff;
-}
-.input-text{
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.input-text-small{
-    width: 60px;
-}
-.div-center{
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.div-saved{
-    color: crimson;
-    margin-top: 5px;
+.content {
+    flex: 1 0 auto;
     text-align: center;
 }

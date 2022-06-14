@@ -24,11 +24,7 @@ public class TourController {
         model.addAttribute("tourTypes",  TourType.values());
         model.addAttribute("foodTypes", FoodType.values());
         model.addAttribute("transportTypes", TransportType.values());
-//        model.addAttribute("foodType", new Classifier());
-//        model.addAttribute("transportType", new Classifier());
-//        model.addAttribute("foodTypes", classifierService.getFoodTypes());
-//        model.addAttribute("transportTypes", classifierService.getTransportTypes());
-        return "add-tour";
+        return "addTour";
     }
 
     @InitBinder("tour")
@@ -39,12 +35,11 @@ public class TourController {
     @PostMapping("/addTour")
     public String addTour(@ModelAttribute("tour") Tour tour, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()){
-            return "add-tour";
+            return "addTour";
         }
         tour.setStateType(new Classifier(ClassifierType.STATE.getType(), StateType.AVAILABLE.getCode()));
         tourService.addTour(tour);
-        model.addAttribute("tours", tourService.getAll());
-        return "tours";
+        return "redirect:/tours";
     }
 
     @GetMapping("/tours")
@@ -54,13 +49,21 @@ public class TourController {
     }
 
     @GetMapping("/personalTours")
-    public String PersonalTours(){
-        return "my-tours";
+    public String PersonalTours(Model model){
+        model.addAttribute("tours", tourService.getAll());
+        return "personalTours";
     }
 
     @GetMapping("tour/{id}")
     public String TourDetails(@PathVariable long id, Model model){
         model.addAttribute("tour", tourService.getTourById(id));
-        return "tour-details";
+        return "tourDetails";
     }
+
+    @GetMapping("/tour/edit/{id}")
+    public String updateTour(@PathVariable long id, Model model){
+        model.addAttribute("tour", tourService.getTourById(id));
+        return "tourDetails";
+    }
+
 }

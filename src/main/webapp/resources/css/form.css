@@ -1,0 +1,18 @@
+.form{
+    max-width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+.input-text{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.input-text-small{
+    width: 60px;
+}
+.div-center{
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

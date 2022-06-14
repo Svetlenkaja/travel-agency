@@ -23,8 +23,8 @@ public class UserController {
     private final ClassifierService classifierService;
 
     @GetMapping("/users")
-    public String getUsers() {
-        List<User> users = userService.getAll();
+    public String showUserList(Model model) {
+        model.addAttribute("users", userService.getAll());
         return "users";
     }
 
@@ -33,13 +33,13 @@ public class UserController {
         model.addAttribute("user", new User());
         model.addAttribute("role", new Classifier());
         model.addAttribute("roles", classifierService.getRoles());
-        return "add-user";
+        return "addUser";
     }
 
     @InitBinder("user")
     public void initBinder(WebDataBinder binder){
        binder.setDisallowedFields("role");
-//     binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.ROLE.getType()));
+ //      binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.ROLE.getType()));
     }
 
     @PostMapping("/addUser")
