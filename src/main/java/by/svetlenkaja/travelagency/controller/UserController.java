@@ -22,6 +22,8 @@ public class UserController {
     private final UserService userService;
     private final ClassifierService classifierService;
 
+
+
     @GetMapping("/users")
     public String showUserList(Model model) {
         model.addAttribute("users", userService.getAll());
@@ -44,7 +46,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute("user") User user) {
-        user.setRole(new Classifier(ClassifierType.ROLE.getType(), RoleType.CLIENT.getCode()));
+        //user.setRole(new Classifier(ClassifierType.ROLE.getType(), RoleType.CLIENT.getCode()));
         userService.addUser(user);
         return "home";
     }

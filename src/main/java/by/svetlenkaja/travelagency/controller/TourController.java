@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
 @RequiredArgsConstructor
 public class TourController {
@@ -41,7 +43,6 @@ public class TourController {
         tourService.addTour(tour);
         return "redirect:/tours";
     }
-
     @GetMapping("/tours")
     public String showTourList(Model model) {
         model.addAttribute("tours", tourService.getAll());

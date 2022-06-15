@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="user">
     <%
-        if (request.getSession().getAttribute("userName") != null) {
-    %>
+        if (pageContext.getSession().getAttribute("userName") != null) {
+    %>h
     Пользователь: ${userName}
     <%
         }

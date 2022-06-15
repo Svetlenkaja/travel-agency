@@ -7,15 +7,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/")
-    public String SignIn(){
-       return "login";
+//    @GetMapping("/")
+//    public String SignIn(){
+//       return "login";
+//    }
+
+    @GetMapping("/login")
+    public String Login() {
+        return "login";
     }
 
-    @PostMapping("/login")
-    public String Login() {
-        //authorize
-        return "home";
+    @PostMapping("/login_success_handler")
+    public String loginSuccessHandler() {
+        //perform audit action
+        return "tours";
+    }
+
+    @PostMapping("/login_failure_handler")
+    public String loginFailureHandler() {
+        //perform audit action
+        return "login";
     }
 
     @GetMapping("/home")
