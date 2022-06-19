@@ -15,22 +15,25 @@
             <div>
                 <h2>Авторизация</h2>
             </div>
-<%--            <div th:if="${param.error}">--%>
-<%--                Invalid username and password.--%>
-<%--            </div>--%>
-<%--            <div th:if="${param.logout}">--%>
-<%--                You have been logged out.--%>
-<%--            </div>--%>
             <form class="form" method="post" action="/login">
+
             <label>Пользователь:
                 <br/>
-                <input class="input-text" type="text" name="name" placeholder="пользователь"><br />
+                <input class="input-text" type="text" name="username" placeholder="пользователь"><br />
             </label>
             <label>Пароль:
                 <br/>
-                <input class="input-text" type="password" name="pass" placeholder="пароль" ><br />
+                <input class="input-text" type="password" name="password" placeholder="пароль" ><br />
             </label>
             <button type="submit">Войти</button>
+            <div style="color: red">
+                <c:if test='${param.containsKey("error")}'>
+                    Invalid username and password.
+                </c:if>
+                <c:if test="${param.logout}">
+                    You have been logged out.
+                </c:if>
+            </div>
             <h4><a href="/createUser">Зарегистрироваться</a></h4>
             </form>
         </div>

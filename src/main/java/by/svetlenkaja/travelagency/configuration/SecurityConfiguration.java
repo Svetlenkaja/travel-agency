@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,59 +17,49 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
     private final UserDetailsService userDetailsService;
+//    private final BCryptPasswordEncoder passwordEncoder;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(getPasswordEncoder());
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.inMemoryAuthentication().withUser("user1").password("12345").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin1").password("12345").roles("USER, ADMIN");
-//        auth.authenticationProvider(authenticationProvider());
-    }
-
-    private PasswordEncoder getPasswordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-                return charSequence.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                return true;
-            }
-        };
+       auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+//                .httpBasic()
+//                .and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/tours", "/createUser").permitAll()
-//                .antMatchers("/createTour", "/users").access("hasRole('ADMIN')")
-                .antMatchers("/createTour", "/users").authenticated()
+                .antMatchers("/createTour", "/users").hasAnyRole("ADMIN")
+//                .antMatchers("/createTour", "/users").access("hasRole('ADMIN')");
+//                .antMatchers("/createTour", "/users").authenticated()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login") // Submit URL
-                .loginPage("/login").permitAll()
-                .successForwardUrl("/login_success_handler")
-                .failureForwardUrl("/login_failure_handler")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login?logout=true")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
+                .loginPage("/login").permitAll();
+//                .successForwardUrl("/login_success_handler")
+//                .failureForwardUrl("/login_failure_handler");
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("/login?logout=true")
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID");
 //                .logout().logoutSuccessUrl("/login?logout")
 //                .and()
 //                .httpBasic();
@@ -77,5 +68,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .csrf();
     }
 
-
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**");
+    }
 }

@@ -1,11 +1,15 @@
 package by.svetlenkaja.travelagency.model.entity;
 
+import by.svetlenkaja.travelagency.constant.RoleType;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Table (name = "user")
@@ -28,24 +32,32 @@ public class User implements UserDetails {
     private String passwordConfirm;
     @Column(name = "account_non_locked")
     private boolean accountNonLocked;
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<RoleType> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> grantList= new ArrayList<GrantedAuthority>();
+        if(roles!= null)  {
+            roles.forEach(role ->
+                    grantList.add(new SimpleGrantedAuthority(role.toString())));
+            }
+        return grantList;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

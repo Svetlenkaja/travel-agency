@@ -1,9 +1,9 @@
 package by.svetlenkaja.travelagency.constant;
 
 public enum RoleType {
-    ADMIN(1),
-    MANAGER(2),
-    CLIENT(3);
+    ROLE_ADMIN(1),
+    ROLE_MANAGER(2),
+    ROLE_CLIENT(3);
 
     final int code;
 
