@@ -11,9 +11,13 @@ body {
 .input-text{
     margin-bottom: 10px;
 }
-.form{
+.form {
     max-width: 300px;
     padding: 20px;
     margin: 0 auto;
     background-color: #fff;
+}
+.message{
+    color: red;
+    padding: 5px;
 }

@@ -9,35 +9,30 @@
 <%--<sec:authorize access="isAuthenticated()">--%>
 <%--    <% response.sendRedirect("/"); %>--%>
 <%--</sec:authorize>--%>
-
-    <div>
+    <form class="form" method="post" action="/login">
         <div class="content">
             <div>
                 <h2>Авторизация</h2>
             </div>
-            <form class="form" method="post" action="/login">
-
             <label>Пользователь:
                 <br/>
-                <input class="input-text" type="text" name="username" placeholder="пользователь"><br />
+                <input class="input-text" type="text" name="username"><br />
             </label>
             <label>Пароль:
                 <br/>
-                <input class="input-text" type="password" name="password" placeholder="пароль" ><br />
+                <input class="input-text" type="password" name="password"><br />
             </label>
-            <button type="submit">Войти</button>
-            <div style="color: red">
+            <button class="input-text" type="submit">Войти</button>
+            <div class="message">
                 <c:if test='${param.containsKey("error")}'>
                     Invalid username and password.
                 </c:if>
-                <c:if test="${param.logout}">
-                    You have been logged out.
+                <c:if test='${param.containsKey("logout")}'>
+                    Logout Successful!
                 </c:if>
             </div>
             <h4><a href="/createUser">Зарегистрироваться</a></h4>
-            </form>
         </div>
-    </div>
-
+    </form>
 </body>
 </html>

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="content">
-        <jsp:include page="header.jsp" />
+        <jsp:include page="_header.jsp" />
         <div>
             <h3>Туры</h3>
         </div>

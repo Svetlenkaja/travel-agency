@@ -51,25 +51,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/createTour", "/users").authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login") // Submit URL
-                .loginPage("/login").permitAll();
-//                .successForwardUrl("/login_success_handler")
-//                .failureForwardUrl("/login_failure_handler");
-//                .and()
-//                .logout()
+                .loginProcessingUrl("/login")
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/home")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
 //                .logoutSuccessUrl("/login?logout=true")
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID");
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
 //                .logout().logoutSuccessUrl("/login?logout")
-//                .and()
-//                .httpBasic();
 //                .exceptionHandling().accessDeniedPage("/403")
 //                .and()
 //                .csrf();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**");
     }
 }

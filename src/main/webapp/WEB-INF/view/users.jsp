@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="content">
-        <jsp:include page="header.jsp" />
+        <jsp:include page="_header.jsp" />
         <div>
             <h3>Пользователи</h3>
         </div>
