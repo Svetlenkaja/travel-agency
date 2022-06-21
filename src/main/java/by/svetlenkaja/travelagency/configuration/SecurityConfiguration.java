@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/tours", "/createUser").permitAll()
-                .antMatchers("/createTour", "/users").hasAnyRole("ADMIN")
+                .antMatchers("/createTour", "/users").hasAnyRole("ADMIN", "MANAGER")
 //                .antMatchers("/createTour", "/users").access("hasRole('ADMIN')");
 //                .antMatchers("/createTour", "/users").authenticated()
                 .and()
@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-//                .logoutSuccessUrl("/login?logout=true")
+                .logoutSuccessUrl("/home")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 //                .logout().logoutSuccessUrl("/login?logout")

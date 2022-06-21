@@ -11,21 +11,24 @@
 <body>
     <div class="content">
         <jsp:include page="_header.jsp" />
+        <jsp:include page="_menu.jsp" />
         <div>
             <h3>Пользователи</h3>
         </div>
     </div>
     <table>
-        <tr><th>Id</th><th>Role</th><th>Name</th><th>Email</th><th>Login</th><th>Edit</th><th>Delete</th></tr>
+        <tr><th>Id</th><th>Username</th><th>Email</th>><th>Role</th><th>Name</th><th>Edit</th><th>Delete</th></tr>
         <c:forEach items="${users}" var="user">
             <tr>
                 <td><a href="<c:url value="/user?id=${user.id}"/>">${user.id}</a></td>
-                <td>${user.role.name}</td>
-                <td>${user.surname} ${user.name}</td>
+                <td>${user.username}</td>
                 <td>${user.email}</td>
-                <td>${user.login}</td>
-                <td><a href="edituser/${user.id}">Изменить</a></td>
-                <td><a href="deleteuser/${user.id}">Удалить</a></td>
+                <td>${user.roles}</td>
+                <td>${user.surname} ${user.name}</td>
+                <% if (request.isUserInRole("ADMIN")) { %>
+                    <td><a href="edituser/${user.id}">Изменить</a></td>
+                    <td><a href="lokeduser/${user.id}">Заблокировать</a></td>
+                <% } %>
             </tr>
         </c:forEach>
     </table>

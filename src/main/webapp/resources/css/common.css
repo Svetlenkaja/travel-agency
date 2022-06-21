@@ -3,8 +3,5 @@ body {
     padding: 2px;
     display: flex;
     flex-direction: column;
-}
-.content {
-    flex: 1 0 auto;
-    text-align: center;
+    background-image: url("https://www.vokrugsveta.by/wp-content/uploads/2022/04/Gruziya.jpg");
 }

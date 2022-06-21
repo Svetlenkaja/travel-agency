@@ -4,6 +4,11 @@ import by.svetlenkaja.travelagency.constant.ClassifierType;
 import by.svetlenkaja.travelagency.constant.FoodType;
 import by.svetlenkaja.travelagency.constant.TourType;
 import by.svetlenkaja.travelagency.constant.TransportType;
+import by.svetlenkaja.travelagency.utils.CustomLocalDateDeserializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,12 +22,6 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-//    @ManyToOne
-//    @JoinColumns({
-//            @JoinColumn(name = "tour_type", referencedColumnName = "type"),
-//            @JoinColumn(name = "tour_code", referencedColumnName = "code")
-//    })
-//    private Classifier tourType;
 
     @Column(name = "tour_type")
     private int tourType;
@@ -33,12 +32,6 @@ public class Tour {
     @Transient
     private TourType type;
 
-//    @ManyToOne
-//    @JoinColumns({
-//            @JoinColumn(name = "transport_type", referencedColumnName = "type"),
-//            @JoinColumn(name = "transport_code", referencedColumnName = "code")
-//    })
-//    private Classifier transportType;
     @Column(name = "transport_type")
     private int transportType;
 
@@ -47,14 +40,6 @@ public class Tour {
 
     @Transient
     private TransportType transport;
-
-
-//    @ManyToOne
-//    @JoinColumns({
-//            @JoinColumn(name="food_type", referencedColumnName = "type"),
-//            @JoinColumn(name="food_code", referencedColumnName = "code")
-//    })
-//    private Classifier foodType;
 
     @Column(name = "food_type")
     private  int foodType;
@@ -66,6 +51,9 @@ public class Tour {
     private FoodType food;
 
     @Column(name = "date_of_departure")
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime dateOfDeparture;
 
     @Column(name = "number_of_nights")

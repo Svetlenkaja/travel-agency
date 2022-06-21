@@ -13,17 +13,21 @@
     <script type="text/javascript" src="scripts/tour.js"></script>
 </head>
 <body>
-
-<spring_form:form class="form" action="/addTour" modelAttribute="tour">
+    <div class="content">
+        <jsp:include page="_header.jsp" />
+        <jsp:include page="_menu.jsp" />
+    </div>
+    <spring_form:form class="form" action="/addTour" modelAttribute="tour">
     <div class="div-center" >
         <h3>Новый тур</h3>
     </div>
-    <spring_form:label path="tourType">Тип тура</spring_form:label>
-    <br />
-    <c:forEach items = "${tourTypes}" var = "type" >
-        <spring_form:radiobutton path="type" value="${type}" label="${type.getName()}"/>
-    </c:forEach>
+
     <div id="div-info" class="div-center"  style="display: block">
+        <spring_form:label path="tourType">Тип тура</spring_form:label>
+        <br />
+        <c:forEach items = "${tourTypes}" var = "type" >
+            <spring_form:radiobutton path="type" value="${type}" label="${type.getName()}"/>
+        </c:forEach>
         <label>Дата отправления:
             <input class="input-text" type="date" name="calendar"> <br />
         </label>

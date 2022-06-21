@@ -4,11 +4,13 @@
 <head>
     <title>Login</title>
     <link type="text/css" rel="stylesheet" href="resources/css/login.css" />
+    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
 </head>
 <body>
-<%--<sec:authorize access="isAuthenticated()">--%>
-<%--    <% response.sendRedirect("/"); %>--%>
-<%--</sec:authorize>--%>
+    <div class="content">
+        <jsp:include page="_header.jsp" />
+        <jsp:include page="_menu.jsp" />
+    </div>
     <form class="form" method="post" action="/login">
         <div class="content">
             <div>

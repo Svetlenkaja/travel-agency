@@ -4,7 +4,7 @@
 <head>
     <title>Title</title>
     <link type="text/css" rel="stylesheet" href="resources/css/header.css" />
-    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
+<%--    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />--%>
     <link type="text/css" rel="stylesheet" href="resources/css/catalog.css" />
 </head>
 <body>
@@ -44,8 +44,12 @@
                 <td>${tour.transport.name}</td>
                 <td>${tour.cost}</td>
                 <td>${tour.stateType.name}</td>
-            <td><a href="<c:url value="/booking/${tour.id}"/>">Забронировать</a></td>
-            <td><a href="<c:url value="/tour/edit/${tour.id}"/>">Изменить</a></td>
+                <% if (request.isUserInRole("CLIENT")) { %>
+                    <td><a href="<c:url value="/booking/${tour.id}"/>">Заказать</a></td>
+                <% } %>
+                <% if (request.isUserInRole("MANAGER")) { %>
+                    <td><a href="<c:url value="/tour/edit/${tour.id}"/>">Изменить</a></td>
+                <% } %>
             </tr>
         </c:forEach>
     </table>
