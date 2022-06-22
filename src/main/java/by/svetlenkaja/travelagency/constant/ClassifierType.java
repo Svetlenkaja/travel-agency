@@ -9,7 +9,8 @@ public enum ClassifierType {
     CLASS_HOTEL(7),
     KIND_EXCURSION(8),
     THERAPY(9),
-    ROOM_TYPE(10);
+    ROOM_TYPE(10),
+    BOOKING_STATUS(13);
 
     final int type;
 

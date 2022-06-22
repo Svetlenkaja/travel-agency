@@ -3,6 +3,5 @@ body {
     padding: 2px;
     display: flex;
     flex-direction: column;
-    /*background-image: url("https://www.vokrugsveta.by/wp-content/uploads/2022/04/Gruziya.jpg");*/
     background-image: url("../image/Gruziya.jpg");
 }
