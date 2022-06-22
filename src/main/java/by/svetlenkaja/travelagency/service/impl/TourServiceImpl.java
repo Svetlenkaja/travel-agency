@@ -31,7 +31,7 @@ public class TourServiceImpl implements TourService {
             return tourRepository.save(tour);
         }
         catch (RuntimeException e){
-            LOGGER.error("Error add tour with data: {}", tour.toString());
+     //       LOGGER.error("Error add tour with data: {}", tour.toString());
             throw new TourServiceException("Ошибка сохранения тура. Обратитесь к администратору.");
         }
     }

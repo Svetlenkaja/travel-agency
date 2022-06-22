@@ -1,14 +1,7 @@
 package by.svetlenkaja.travelagency;
 
-import by.svetlenkaja.travelagency.configuration.ConfigurationClassifier;
-import by.svetlenkaja.travelagency.model.entity.Classifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.List;
 
 
 @SpringBootApplication

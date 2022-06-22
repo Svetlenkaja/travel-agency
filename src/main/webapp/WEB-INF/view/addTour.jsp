@@ -26,7 +26,7 @@
         <spring_form:label path="tourType">Тип тура</spring_form:label>
         <br />
         <c:forEach items = "${tourTypes}" var = "type" >
-            <spring_form:radiobutton path="type" value="${type}" label="${type.getName()}"/>
+            <spring_form:radiobutton path="type" value="${type}" label="${type.getClassifier().getName()}"/>
         </c:forEach>
         <label>Дата отправления:
             <input class="input-text" type="date" name="calendar"> <br />
@@ -49,7 +49,7 @@
         <spring_form:select path="food">
             <spring_form:option value="0" label="Выберите тип питания"/>
             <c:forEach items = "${foodTypes}" var = "foodType" >
-                <spring_form:option value="${foodType}" label="${foodType.getFullName()}"/>
+                <spring_form:option value="${foodType}" label="${foodType.getClassifier().getName()}"/>
             </c:forEach>
         </spring_form:select>
         <br />

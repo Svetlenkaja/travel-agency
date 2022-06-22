@@ -1,36 +1,35 @@
 package by.svetlenkaja.travelagency.constant;
 
+import by.svetlenkaja.travelagency.model.entity.Classifier;
+
 import java.util.stream.Stream;
 
 public enum FoodType {
-    RO(1, "RO", "room only"),
-    BB(2, "BB", "bed & breakfast"),
-    HB(3, "HB","half board"),
-    FB(4, "FB", "full board"),
-    AI(5, "AI", "All inclusive"),
-    UAI(6, "UAI", "ultra all inclusive");
+    RO(1),
+    BB(2),
+    HB(3),
+    FB(4),
+    AI(5),
+    UAI(6);
 
     private final int code;
-    private final String name;
-    private final String fullName;
+    private Classifier classifier;
 
-
-    FoodType(int code, String name, String fullName)  {
+    FoodType(int code)  {
         this.code = code;
-        this.name = name;
-        this.fullName = fullName;
+        this.classifier = new Classifier();
     }
 
     public int getCode() {
         return code;
     }
 
-    public String getName() {
-        return name;
+    public void setClassifier(Classifier classifier) {
+        this.classifier = classifier;
     }
 
-    public String getFullName() {
-        return fullName;
+    public Classifier getClassifier() {
+        return classifier;
     }
 
     public static FoodType of(int code){
@@ -39,8 +38,4 @@ public enum FoodType {
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
-
-//    public static String  getFoodTypeFullName(FoodType foodType) {
-//        return foodType.getFullName();
-//    }
 }
