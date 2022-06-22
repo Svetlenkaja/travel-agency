@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -29,11 +30,15 @@ public class BookingServiceImpl implements BookingService {
         booking.setTour(tour);
         booking.setStatusType(ClassifierType.BOOKING_STATUS.getType());
         booking.setStatusCode(BookingStatusType.OPENED.getCode());
-        booking.setCost(tour.getCostWithDiscont());
-        double discount = bookingCount > 0 ? tour.getCostWithDiscont() - (tour.getCostWithDiscont() * bookingCount / 100) : tour.getCostWithDiscont();
+        booking.setCost(tour.getCostWithDiscount());
+        double discount = bookingCount > 0 ? tour.getCostWithDiscount() - (tour.getCostWithDiscount() * bookingCount / 100) : tour.getCostWithDiscount();
         booking.setDiscount(discount);
         return bookingRepository.save(booking);
 
     }
 
+    @Override
+    public List<Booking> getBookingsByUser(User user) {
+        return bookingRepository.findBookingsByUser(user.getId());
+    }
 }

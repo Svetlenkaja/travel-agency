@@ -1,10 +1,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Ошибка!</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="resources/css/header.css" />
+    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="resources/css/catalog.css" />
 </head>
 <body>
-Здесь будет список туров пользователя
+<div class="content">
+    <jsp:include page="_header.jsp" />
+    <jsp:include page="_menu.jsp" />
+    <div>
+        <h3>Мои заказы</h3>
+    </div>
+</div>
+<table>
+    <tr>
+        <th>№ заказа</th><th>Дата заказа</th><th>№ тура</th><th>Тип тура</th><th>Страна/курорт</th><th>Дата отправления</th><th>Количество ночей</th><th>Тип питания</th><th>Транспорт</th>
+        <th>Стоимость</th><th>Статус</th><th></th>
+    </tr>
+    <c:forEach items="${booking}" var="booking" >
+        <tr>
+            <td>${booking.orderNumber}</td>
+            <td>${booking.orderDate}</td>
+            <td><a href="<c:url value="/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
+            <td>${booking.tour.type.classifier.name}</td>
+            <td></td>
+            <td>${booking.tour.dateOfDeparture}</td>
+            <td>${booking.tour.numberOfNights}</td>
+            <td>${booking.tour.food.classifier.name}</td>
+            <td>${booking.tour.transport.name}</td>
+            <td>${booking.tour.cost}</td>
+            <td>${booking.tour.stateType.name}</td>
+            <td><a href="<c:url value="/payment/${booking.id}"/>">Оплатить</a></td>
+        </tr>
+    </c:forEach>
+</table>
 </body>
 </html>

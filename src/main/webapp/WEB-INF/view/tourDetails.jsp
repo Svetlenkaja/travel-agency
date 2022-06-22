@@ -8,7 +8,7 @@
     <body>
         <h3>Подробная информация о туре </h3>
         <div>Код: ${tour.id}</div>
-        <div>Тип тура: ${tour.type.name}</div>
+        <div>Тип тура: ${tour.type.classifier.name}</div>
         <div>Страна: </div>
         <div>Отель: </div>
     </body>

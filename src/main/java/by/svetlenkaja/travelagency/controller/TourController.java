@@ -56,7 +56,7 @@ public class TourController {
 
     @GetMapping("/personalTours")
     public String PersonalTours(Model model){
-        model.addAttribute("tours", tourService.getAll());
+        model.addAttribute("booking", bookingService.getBookingsByUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         return "personalTours";
     }
 

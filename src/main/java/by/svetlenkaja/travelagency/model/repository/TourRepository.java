@@ -4,9 +4,13 @@ import by.svetlenkaja.travelagency.model.entity.Hotel;
 import by.svetlenkaja.travelagency.model.entity.Tour;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface TourRepository extends JpaRepository<Tour, Long> {
+
 
 }

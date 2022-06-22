@@ -69,8 +69,8 @@ public class Tour {
     @Column(name="cost")
     private int cost;
 
-    @Column(name="cost_with_discont")
-    private int costWithDiscont;
+    @Column(name="cost_with_discount")
+    private int costWithDiscount;
 
     @PostLoad
         void fillTransient(){
