@@ -33,14 +33,21 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
 
     @Column(name = "cost")
-    private int cost;
+    private double cost;
 
-    @Column(name = "discont")
-    private int discont;
+    @Column(name = "discount")
+    private double discount;
+
+    @Column(name = "status_type")
+    private int statusType;
+
+    @Column(name = "status_code")
+    private int statusCode;
 
 }

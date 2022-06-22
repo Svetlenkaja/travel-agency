@@ -3,9 +3,13 @@ package by.svetlenkaja.travelagency.controller;
 import by.svetlenkaja.travelagency.constant.*;
 import by.svetlenkaja.travelagency.editor.ClassifierEditor;
 import by.svetlenkaja.travelagency.model.entity.*;
+import by.svetlenkaja.travelagency.service.BookingService;
 import by.svetlenkaja.travelagency.service.ClassifierService;
 import by.svetlenkaja.travelagency.service.TourService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +17,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
 public class TourController {
-    private final ClassifierService classifierService;
     private final TourService tourService;
+    private final BookingService bookingService;
 
     @GetMapping("/createTour")
     public String addTourView(Model model) {
@@ -51,7 +56,7 @@ public class TourController {
 
     @GetMapping("/personalTours")
     public String PersonalTours(Model model){
-        model.addAttribute("tours", tourService.getAll());
+        model.addAttribute("booking", bookingService.getBookingsByUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         return "personalTours";
     }
 
@@ -66,5 +71,13 @@ public class TourController {
         model.addAttribute("tour", tourService.getTourById(id));
         return "tourDetails";
     }
+
+    @GetMapping("/booking/{id}")
+    public String openBooking( @PathVariable long id){
+        Tour tour = tourService.getTourById(id);
+        bookingService.bookTour(tour, (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return "personalTours";
+    }
+
 
 }

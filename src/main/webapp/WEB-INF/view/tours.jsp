@@ -4,15 +4,13 @@
 <head>
     <title>Title</title>
     <link type="text/css" rel="stylesheet" href="resources/css/header.css" />
-<%--    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />--%>
+    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
     <link type="text/css" rel="stylesheet" href="resources/css/catalog.css" />
 </head>
 <body>
     <div class="content">
         <jsp:include page="_header.jsp" />
-        <div>
-            <h3>Туры</h3>
-        </div>
+        <jsp:include page="_menu.jsp" />
     </div>
     <form class="form" action="${pageContext.request.contextPath}/tours" modelAttribute="tours">
         <div>

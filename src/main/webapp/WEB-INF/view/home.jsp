@@ -4,7 +4,7 @@
     <head>
         <title>Главная</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
+        <link type="text/css" rel="stylesheet" href="resources/css/main.css" />
 <%--        <link type="text/css" rel="stylesheet" href="resources/css/header.css" />--%>
     </head>
     <body>
