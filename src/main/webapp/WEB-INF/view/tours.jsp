@@ -31,22 +31,19 @@
             <tr>
                 <td><a href="<c:url value="/tour/${tour.id}"/>">${tour.id}</a></td>
                 <td>${tour.type.classifier.name}</td>
-                <td>
-<%--                    <c:if test="${tour.tourType.code==1}">--%>
-<%--                        ${tour.hotel.resort.country.name}/${tour.hotel.resort.name}--%>
-<%--                    </c:if>--%>
-                </td>
+                <td>${tour.country.name}</td>
                 <td>${tour.dateOfDeparture}</td>
                 <td>${tour.numberOfNights}</td>
                 <td>${tour.food.classifier.name}</td>
                 <td>${tour.transport.name}</td>
                 <td>${tour.cost}</td>
+                <td>${tour.costWithDiscount}</td>
                 <td>${tour.stateType.name}</td>
                 <% if (request.isUserInRole("CLIENT")) { %>
                     <td><a href="<c:url value="/booking/${tour.id}"/>">Заказать</a></td>
                 <% } %>
                 <% if (request.isUserInRole("MANAGER")) { %>
-                    <td><a href="<c:url value="/tour/edit/${tour.id}"/>">Изменить</a></td>
+                    <td><a href="<c:url value="/tour/setHot/${tour.id}"/>">Горящий</a></td>
                 <% } %>
             </tr>
         </c:forEach>

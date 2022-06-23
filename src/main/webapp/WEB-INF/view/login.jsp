@@ -32,8 +32,11 @@
                 <c:if test='${param.containsKey("logout")}'>
                     Logout Successful!
                 </c:if>
+                <c:if test='${param.containsKey("register")}'>
+                    Вы успешно зарегистрировались!
+                </c:if>
             </div>
-            <h4><a href="/createUser">Зарегистрироваться</a></h4>
+            <h4><a href="/register">Зарегистрироваться</a></h4>
         </div>
     </form>
 </body>

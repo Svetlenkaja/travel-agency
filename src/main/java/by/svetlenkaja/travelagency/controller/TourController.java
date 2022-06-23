@@ -1,14 +1,16 @@
 package by.svetlenkaja.travelagency.controller;
 
 import by.svetlenkaja.travelagency.constant.*;
-import by.svetlenkaja.travelagency.editor.ClassifierEditor;
+import by.svetlenkaja.travelagency.editor.CountryEditor;
+import by.svetlenkaja.travelagency.editor.LocalDateEditor;
 import by.svetlenkaja.travelagency.model.entity.*;
+import by.svetlenkaja.travelagency.model.repository.TourRepository;
 import by.svetlenkaja.travelagency.service.BookingService;
-import by.svetlenkaja.travelagency.service.ClassifierService;
 import by.svetlenkaja.travelagency.service.TourService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +18,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
-import java.security.Principal;
+import java.time.LocalDate;
+
 
 @Controller
 @RequiredArgsConstructor
 public class TourController {
     private final TourService tourService;
     private final BookingService bookingService;
+    private final TourRepository tourRepository;
 
     @GetMapping("/createTour")
     public String addTourView(Model model) {
@@ -31,12 +34,15 @@ public class TourController {
         model.addAttribute("tourTypes",  TourType.values());
         model.addAttribute("foodTypes", FoodType.values());
         model.addAttribute("transportTypes", TransportType.values());
+        model.addAttribute("countries", tourRepository.getCountries());
         return "addTour";
     }
 
     @InitBinder("tour")
     public void initBinder(WebDataBinder binder){
         //binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.FOOD.getType()));
+        binder.registerCustomEditor(Country.class, new CountryEditor());
+        binder.registerCustomEditor(LocalDate.class,new LocalDateEditor());
     }
 
     @PostMapping("/addTour")
@@ -45,12 +51,17 @@ public class TourController {
             return "addTour";
         }
         tour.setStateType(new Classifier(ClassifierType.STATE.getType(), StateType.AVAILABLE.getCode()));
+        tour.setCostWithDiscount(tour.getCost());
+        tour.setDiscount(0);
         tourService.addTour(tour);
         return "redirect:/tours";
     }
     @GetMapping("/tours")
     public String showTourList(Model model) {
-        model.addAttribute("tours", tourService.getAll());
+//        , @DefaultValue("1") @QueryParam("pageNum") int pageNum,
+//        @DefaultValue("20") @QueryParam("size") int size
+        Page<Tour> tours = tourRepository.findAll(PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "id")));
+        model.addAttribute("tours", tours.getContent());
         return "tours";
     }
 

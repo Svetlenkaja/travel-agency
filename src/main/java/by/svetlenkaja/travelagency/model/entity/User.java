@@ -1,7 +1,10 @@
 package by.svetlenkaja.travelagency.model.entity;
 
 import by.svetlenkaja.travelagency.constant.RoleType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +27,10 @@ public class User implements UserDetails {
     private String surname;
     @Column (name = "name")
     private String name;
-    @Column
+    @Column(name = "email")
     private String email;
+    @Column (name="phone")
+    private String phone;
     @Column(name="password")
     private String password;
     @Transient
