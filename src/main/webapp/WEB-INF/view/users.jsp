@@ -17,22 +17,34 @@
         </div>
     </div>
     <table>
-        <tr><th>Id</th><th>Username</th><th>Email</th>><th>Role</th><th>Name</th><th>Edit</th><th>Delete</th></tr>
-        <c:forEach items="${users}" var="user">
+        <tr>
+            <th>Id</th>
+            <th>Пользователь</th>
+            <th>Электронная почта</th>
+            <th>Роль</th>
+            <th>ФИО</th>
+            <th>Телефон</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+            <c:forEach items="${users}" var="user">
             <tr>
-                <td><a href="<c:url value="/user?id=${user.id}"/>">${user.id}</a></td>
+                <td>${user.id}</td>
                 <td>${user.username}</td>
                 <td>${user.email}</td>
                 <td>${user.roles}</td>
                 <td>${user.surname} ${user.name}</td>
-                <% if (request.isUserInRole("ADMIN")) { %>
-                    <td><a href="edituser/${user.id}">Изменить</a></td>
-                    <td><a href="lokeduser/${user.id}">Заблокировать</a></td>
-                <% } %>
+                <td>${user.phone}</td>
+                <td>${user.accountNonLocked}</td>
+                <c:if test="${user.accountNonLocked}">
+                    <td><a href="lockedUser/${user.id}">Заблокировать</a></td>
+                </c:if>
             </tr>
         </c:forEach>
     </table>
 <br/>
-<a href="${pageContext.request.contextPath}/createUser">Создать пользователя</a>
+    <% if (request.isUserInRole("ADMIN")) { %>
+        <a href="${pageContext.request.contextPath}/createUser">Создать пользователя</a>
+    <% } %>
 </body>
 </html>

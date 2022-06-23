@@ -28,17 +28,18 @@
         <c:forEach items = "${tourTypes}" var = "type" >
             <spring_form:radiobutton path="type" value="${type}" label="${type.getClassifier().getName()}"/>
         </c:forEach>
-        <label>Дата отправления:
-            <input class="input-text" type="date" name="calendar"> <br />
-        </label>
-        <div id="div-rest" style="display: none">
-            <label>Страна:
-<%--                <input class="input-text" type="text" name="country" ><br />--%>
-            </label>
-            <label>Курорт:
-<%--                <input class="input-text" type="text" name="resort" ><br />--%>
-            </label>
-        </div>
+        <br />
+        <spring_form:label path="dateOfDeparture">Дата отправления</spring_form:label>
+        <spring_form:input class="input-text" path="dateOfDeparture" type="date" name="calendar"/>
+        <br />
+        <spring_form:label path="country">Страна</spring_form:label>
+        <spring_form:select path="country">
+            <spring_form:option value="0" label="Выберите страну"/>
+            <c:forEach items = "${countries}" var = "country" >
+                <spring_form:option value="${country.id}" label="${country.getName()}"/>
+            </c:forEach>
+        </spring_form:select>
+        <br>
         <spring_form:label path="numberOfNights">Количество ночей</spring_form:label>
         <spring_form:input class="input-text input-text-small" path="numberOfNights"/>
         <br />

@@ -8,45 +8,56 @@
     <link type="text/css" rel="stylesheet" href="resources/css/login.css" />
 </head>
     <body>
-        <spring_form:form cssClass="form" method="POST" action="/addUser" modelAttribute="user">
+        <spring_form:form cssClass="form" method="POST" action="${url_param}" modelAttribute="user">
            <div class="content">
                 <div>
                     <h3 class="div-center">Регистрация</h3>
                 </div>
-    <%--                <tr>--%>
-    <%--                    <td><spring_form:label path="role">Role</spring_form:label></td>--%>
-    <%--                     <td>  <spring_form:select path="role">--%>
-    <%--                            <spring_form:option value="NONE" label="--- Select ---"/>--%>
+                    <% if (request.isUserInRole("ADMIN")) { %>
+                        <div>
+                            <spring_form:checkboxes items="${roles}" path="roles" />
+                            <br/>
+                        </div>
+                    <% } %>
     <%--                            <spring_form:options items="${roles}" itemValue="code" itemLabel="name"/>--%>
-    <%--                        </spring_form:select>--%>
-    <%--                     </td>--%>
-    <%--                </tr>--%>
+
                     <div>
-                        <spring_form:label path="username">Username</spring_form:label>
+                        <spring_form:label path="username">Имя пользователя</spring_form:label>
+                        <br/>
                         <spring_form:input class="input-text" path="username"/>
                     </div>
                     <div>
-                        <spring_form:label path="surname">Surname</spring_form:label>
+                        <spring_form:label path="surname">Фамилия</spring_form:label>
+                        <br/>
                         <spring_form:input class="input-text" path="surname"/>
                     </div>
                     <div>
-                        <spring_form:label path="name">Name</spring_form:label>
+                        <spring_form:label path="name">Имя</spring_form:label>
+                        <br/>
                         <spring_form:input class="input-text" path="name"/>
                     </div>
                     <div>
-                        <spring_form:label path="email">Email</spring_form:label>
+                        <spring_form:label path="email">Электронная почта</spring_form:label>
+                        <br/>
                         <spring_form:input class="input-text" path="email"/>
                     </div>
+                   <div>
+                       <spring_form:label path="phone">Телефон</spring_form:label>
+                       <br/>
+                       <spring_form:input class="input-text" path="phone"/>
+                   </div>
                     <div>
-                        <spring_form:label path="password">Password</spring_form:label>
+                        <spring_form:label path="password">Пароль</spring_form:label>
+                        <br/>
                         <spring_form:input class="input-text" type="password" path="password"  />
                     </div>
                     <div>
-                        <spring_form:label path="passwordConfirm">Confirm password</spring_form:label>
+                        <spring_form:label path="passwordConfirm">Подтверждение пароля</spring_form:label>
+                        <br/>
                         <spring_form:input class="input-text" type="password" path="passwordConfirm" />
                     </div>
                     <div>
-                        <input class="input-text" type="submit" value="Submit"/>
+                        <input class="input-text" type="submit" value="Зарегистрироваться"/>
                     </div>
             </div>
         </spring_form:form>

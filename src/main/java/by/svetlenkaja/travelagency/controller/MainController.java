@@ -13,12 +13,6 @@ public class MainController {
         return "login";
     }
 
-//    @GetMapping("/logout")
-//    public String logoutSuccessfulPage(Model model) {
-//        model.addAttribute("title", "Logout");
-//        return "logout";
-//    }
-
     @GetMapping(value={"", "/", "home"})
     public String home(){
         return "home";

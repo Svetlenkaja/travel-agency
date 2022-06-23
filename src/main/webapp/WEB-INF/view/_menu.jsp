@@ -20,10 +20,9 @@
             Пользователь : ${pageContext.request.userPrincipal.name}
             <% if (request.isUserInRole("CLIENT")) { %>
             |
-            <%--            <a href="${pageContext.request.contextPath}/personalTours">Мои туры</a>--%>
             <a href="<c:url value="/personalTours" />">Мой профиль</a>
             |
-            <a href="<c:url value="/personalTours" />">Мои туры</a>
+            <a href="<c:url value="/personalTours" />">Мои заказы</a>
             |
             <% } %>
             <%--            <a href="${pageContext.request.contextPath}/logout"> Выйти</a>--%>
@@ -31,6 +30,8 @@
         </c:when>
         <c:otherwise>
             <a href="${pageContext.request.contextPath}/login">Войти</a>
+            |
+            <a href="${pageContext.request.contextPath}/register">Регистрация</a>
         </c:otherwise>
     </c:choose>
 </div>

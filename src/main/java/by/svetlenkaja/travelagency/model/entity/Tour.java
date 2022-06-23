@@ -8,11 +8,11 @@ import by.svetlenkaja.travelagency.utils.CustomLocalDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.Data;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import lombok.Data;
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -52,9 +52,9 @@ public class Tour {
 
     @Column(name = "date_of_departure")
     @JsonDeserialize(using = CustomLocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    private LocalDateTime dateOfDeparture;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    private LocalDate dateOfDeparture;
 
     @Column(name = "number_of_nights")
     private int numberOfNights;
@@ -67,10 +67,17 @@ public class Tour {
     private Classifier stateType;
 
     @Column(name="cost")
-    private int cost;
+    private double cost;
 
     @Column(name="cost_with_discount")
-    private int costWithDiscount;
+    private double costWithDiscount;
+
+    @Column(name="discount")
+    private int discount;
+
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @PostLoad
         void fillTransient(){
