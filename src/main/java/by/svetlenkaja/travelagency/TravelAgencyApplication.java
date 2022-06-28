@@ -9,11 +9,6 @@ public class TravelAgencyApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TravelAgencyApplication.class, args);
-
-//        ApplicationContext context = new AnnotationConfigApplicationContext(ConfigurationClassifier.class);
-//        ConfigurationClassifier collectionsBean = context.getBean(
-//                ConfigurationClassifier.class);
-//        collectionsBean.getTourTypes();
     }
 
 }

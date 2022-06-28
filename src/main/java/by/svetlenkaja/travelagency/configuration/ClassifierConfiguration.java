@@ -14,11 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @RequiredArgsConstructor
 public class ClassifierConfiguration {
     final ClassifierRepository classifierRepository;
-//
-//    @Bean
-//    public List<Classifier> getTourTypes(){
-//        return classifierRepository.findByType(3);
-//    }
 
     @Bean
     public void enumsInitializer(){
@@ -29,5 +24,7 @@ public class ClassifierConfiguration {
         for (FoodType foodType : FoodType.values()) {
             foodType.setClassifier(classifierRepository.findByTypeAndCode(ClassifierType.FOOD.getType(), foodType.getCode()));
         }
+
+
     }
 }

@@ -14,10 +14,12 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * Класс туристических туров
+ */
 @Data
 @Entity
 @Table(name = "tour")
-
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

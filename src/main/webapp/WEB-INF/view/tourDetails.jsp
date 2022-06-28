@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Details</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
 </head>
     <body>
         <h3>Подробная информация о туре </h3>

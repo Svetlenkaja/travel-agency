@@ -7,9 +7,13 @@
     <a href="${pageContext.request.contextPath}/tours">Каталог</a>
     |
     <a href="${pageContext.request.contextPath}/find">Подобрать тур</a>
-    <% if (request.isUserInRole("ADMIN")) { %>
+    <% if (request.isUserInRole("MANAGER") || request.isUserInRole("ADMIN")) { %>
     |
-    <a href="${pageContext.request.contextPath}/createTour">Создать тур</a>
+    <a href="${pageContext.request.contextPath}/tours/createTour">Создать тур</a>
+    |
+    <a href="${pageContext.request.contextPath}/bookings">Заказы</a>
+    <% } %>
+    <% if (request.isUserInRole("ADMIN")) { %>
     |
     <a href="${pageContext.request.contextPath}/users">Пользователи</a>
     <% } %>
@@ -20,12 +24,11 @@
             Пользователь : ${pageContext.request.userPrincipal.name}
             <% if (request.isUserInRole("CLIENT")) { %>
             |
-            <a href="<c:url value="/personalTours" />">Мой профиль</a>
+            <a href="<c:url value="/bookings/myBooking" />">Мой профиль</a>
             |
-            <a href="<c:url value="/personalTours" />">Мои заказы</a>
+            <a href="<c:url value="/bookings/myBooking" />">Мои заказы</a>
             |
             <% } %>
-            <%--            <a href="${pageContext.request.contextPath}/logout"> Выйти</a>--%>
             <a href="<c:url value="/logout" />">Выйти</a>
         </c:when>
         <c:otherwise>

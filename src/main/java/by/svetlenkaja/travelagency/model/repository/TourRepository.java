@@ -15,4 +15,7 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
 
     @Query(value = "from Country")
     List<Country> getCountries ();
+
+    @Override
+    long count();
 }

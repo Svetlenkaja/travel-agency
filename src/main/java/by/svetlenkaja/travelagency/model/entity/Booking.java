@@ -21,7 +21,6 @@ public class Booking {
 
     @CreationTimestamp
     @Column(name = "order_date")
-
     @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
@@ -38,11 +37,11 @@ public class Booking {
     @JoinColumn(name = "client_id")
     private User client;
 
-    @Column(name = "cost")
-    private double cost;
+    @Column(name = "cost_with_sale")
+    private double costWithSale;
 
-    @Column(name = "discount")
-    private double discount;
+    @Column(name = "personal_sale")
+    private double personalSale;
 
     @Column(name = "status_type")
     private int statusType;

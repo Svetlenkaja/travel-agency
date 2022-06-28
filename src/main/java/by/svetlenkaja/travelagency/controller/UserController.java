@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final ClassifierService classifierService;
 
     @GetMapping("/users")
     public String showUserList(Model model) {
@@ -52,7 +51,8 @@ public class UserController {
         userService.addUser(user);
         return "redirect:/users";
     }
-        @GetMapping("/lockedUser/{idUser}")
+
+    @GetMapping("/lockedUser/{idUser}")
     public String lockedUser(@PathVariable long idUser){
         userService.lockedUser(idUser);
         return "redirect:/users";

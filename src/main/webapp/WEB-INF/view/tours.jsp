@@ -3,9 +3,9 @@
 <html>
 <head>
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/header.css" />
-    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
-    <link type="text/css" rel="stylesheet" href="resources/css/catalog.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/header.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/catalog.css" />
 </head>
 <body>
     <div class="content">
@@ -23,13 +23,17 @@
         </div>
     </form>
     <table>
+        <% if (request.isUserInRole("MANAGER")) { %>
+            <div><a href="${pageContext.request.contextPath}/tours/createTour">Создать тур</a></div>
+        </br>
+        <% } %>
         <tr>
             <th>№</th><th>Тип тура</th><th>Страна/курорт</th><th>Дата отправления</th><th>Количество ночей</th><th>Тип питания</th><th>Транспорт</th>
-            <th>Стоимость</th><th>Статус</th><th></th><th></th>
+            <th>Стоимость</th><th>С учетом скидки</th><th>Статус</th>
         </tr>
         <c:forEach items="${tours}" var="tour" >
             <tr>
-                <td><a href="<c:url value="/tour/${tour.id}"/>">${tour.id}</a></td>
+                <td><a href="<c:url value="/tours/${tour.id}"/>">${tour.id}</a></td>
                 <td>${tour.type.classifier.name}</td>
                 <td>${tour.country.name}</td>
                 <td>${tour.dateOfDeparture}</td>
@@ -40,14 +44,29 @@
                 <td>${tour.costWithDiscount}</td>
                 <td>${tour.stateType.name}</td>
                 <% if (request.isUserInRole("CLIENT")) { %>
-                    <td><a href="<c:url value="/booking/${tour.id}"/>">Заказать</a></td>
+                    <td><a href="<c:url value="/bookings/${tour.id}"/>">Заказать</a></td>
                 <% } %>
                 <% if (request.isUserInRole("MANAGER")) { %>
-                    <td><a href="<c:url value="/tour/setHot/${tour.id}"/>">Горящий</a></td>
+                    <td><a href="<c:url value="/tours/setHot/${tour.id}"/>">Горящий</a></td>
                 <% } %>
             </tr>
         </c:forEach>
     </table>
-    <div><a href="${pageContext.request.contextPath}/createTour">Создать тур</a></div>
+    </br>
+    <div>
+        <c:choose>
+            <c:when test="${currPage > 0}">
+                <span><a href="<c:url value="/tours/${currPage-1}"/>">Предыдущая</a></span>
+            </c:when>
+        </c:choose>
+        <c:forEach var="i" begin="0" end="${lastPage-1 }" >
+            <span><a href="<c:url value="/tours/${i}"/>">${i+1 }</a></span>   	<!-- Displaying Page No -->
+        </c:forEach>
+        <c:choose>
+            <c:when test="${currPage < lastPage}">
+                <span><a href="<c:url value="/tours/${currPage+1}"/>">Следующая</a></span>
+            </c:when>
+        </c:choose>
+    </div>
 </body>
 </html>

@@ -9,7 +9,7 @@ public class LocalDateEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String value) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             setValue(LocalDate.parse(value, formatter));
         } catch (Exception ex) {
             setValue(null);
