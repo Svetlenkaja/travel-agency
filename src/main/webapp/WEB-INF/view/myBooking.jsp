@@ -3,9 +3,9 @@
 <html>
 <head>
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/header.css" />
-    <link type="text/css" rel="stylesheet" href="resources/css/common.css" />
-    <link type="text/css" rel="stylesheet" href="resources/css/catalog.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/header.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/catalog.css" />
 </head>
 <body>
 <div class="content">
@@ -18,7 +18,7 @@
 <table>
     <tr>
         <th>№ заказа</th><th>Дата заказа</th><th>№ тура</th><th>Тип тура</th><th>Страна/курорт</th><th>Дата отправления</th><th>Количество ночей</th><th>Тип питания</th><th>Транспорт</th>
-        <th>Стоимость</th><th>Статус</th><th></th>
+        <th>Стоимость</th><th>Сумма к оплате</th><th>Статус</th>
     </tr>
     <c:forEach items="${booking}" var="booking" >
         <tr>
@@ -32,8 +32,13 @@
             <td>${booking.tour.food.classifier.name}</td>
             <td>${booking.tour.transport.name}</td>
             <td>${booking.tour.cost}</td>
+            <td>${booking.costWithSale}</td>
             <td>${booking.tour.stateType.name}</td>
-            <td><a href="<c:url value="/payment/${booking.id}"/>">Оплатить</a></td>
+            <td>
+                <c:if test="${booking.statusCode == 1}">
+                    <a href="<c:url value="/bookings/payment/${booking.id}"/>">Оплатить</a>
+                </c:if>
+            </td>
         </tr>
     </c:forEach>
 </table>

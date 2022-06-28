@@ -8,6 +8,8 @@ import by.svetlenkaja.travelagency.model.repository.TourRepository;
 import by.svetlenkaja.travelagency.service.BookingService;
 import by.svetlenkaja.travelagency.service.TourService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,15 +20,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(value = "/tours")
 public class TourController {
     private final TourService tourService;
-    private final BookingService bookingService;
     private final TourRepository tourRepository;
+    private static final int PAGE_SIZE = 10;
 
     @GetMapping("/createTour")
     public String addTourView(Model model) {
@@ -34,6 +40,7 @@ public class TourController {
         model.addAttribute("tourTypes",  TourType.values());
         model.addAttribute("foodTypes", FoodType.values());
         model.addAttribute("transportTypes", TransportType.values());
+        model.addAttribute("discounts", DiscountType.values());
         model.addAttribute("countries", tourRepository.getCountries());
         return "addTour";
     }
@@ -51,24 +58,31 @@ public class TourController {
             return "addTour";
         }
         tour.setStateType(new Classifier(ClassifierType.STATE.getType(), StateType.AVAILABLE.getCode()));
-        tour.setCostWithDiscount(tour.getCost());
-        tour.setDiscount(0);
+        if (tour.getDiscount() > 0) {
+            tour.setCostWithDiscount(tour.getCost() * (1 - tour.getDiscount() / 100));
+        } else {
+            tour.setCostWithDiscount(tour.getCost());
+        }
         tourService.addTour(tour);
         return "redirect:/tours";
     }
-    @GetMapping("/tours")
-    public String showTourList(Model model) {
-//        , @DefaultValue("1") @QueryParam("pageNum") int pageNum,
-//        @DefaultValue("20") @QueryParam("size") int size
-        Page<Tour> tours = tourRepository.findAll(PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "id")));
+    @GetMapping(value= {"", "/{page}"})
+    public String showTourList(Model model,
+                               @PathVariable(required=false, name="page") String page) {
+        if (page == null) {
+            page = "0";
+        }
+        int lastPage;
+        long totalTours = tourRepository.count(); //total no of tours
+        if (totalTours % PAGE_SIZE != 0)
+            lastPage = (int)(totalTours / PAGE_SIZE) + 1; // get last page No (zero based)
+        else
+            lastPage = (int)(totalTours / PAGE_SIZE);
+        model.addAttribute("currPage", page);
+        model.addAttribute("lastPage", lastPage);
+        Page<Tour> tours = tourRepository.findAll(PageRequest.of(Integer.parseInt(page), PAGE_SIZE, Sort.by(Sort.Direction.ASC, "id")));
         model.addAttribute("tours", tours.getContent());
         return "tours";
-    }
-
-    @GetMapping("/personalTours")
-    public String PersonalTours(Model model){
-        model.addAttribute("booking", bookingService.getBookingsByUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
-        return "personalTours";
     }
 
     @GetMapping("tour/{id}")
@@ -77,18 +91,14 @@ public class TourController {
         return "tourDetails";
     }
 
-    @GetMapping("/tour/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String updateTour(@PathVariable long id, Model model){
+        //TODO
         model.addAttribute("tour", tourService.getTourById(id));
         return "tourDetails";
     }
 
-    @GetMapping("/booking/{id}")
-    public String openBooking( @PathVariable long id){
-        Tour tour = tourService.getTourById(id);
-        bookingService.bookTour(tour, (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        return "personalTours";
-    }
+
 
 
 }

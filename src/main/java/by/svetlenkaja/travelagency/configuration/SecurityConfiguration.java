@@ -37,29 +37,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .httpBasic()
-//                .and()
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/tours", "/createUser").permitAll()
-                .antMatchers("/createTour", "/users").hasAnyRole("ADMIN", "MANAGER")
-//                .antMatchers("/createTour", "/users").access("hasRole('ADMIN')");
-//                .antMatchers("/createTour", "/users").authenticated()
+                // The pages does not require login
+                .authorizeRequests().antMatchers("/", "/home", "/login", "/logout", "/tours", "/register").permitAll()
+                .antMatchers("/tours/createTour", "/bookings").hasAnyRole("ADMIN", "MANAGER")
+                // For ADMIN only
+                .antMatchers("/createUser", "/users").access("hasRole('ADMIN')")
+                .antMatchers("/bookings/myBooking").access("hasRole('CLIENT')")
                 .and()
+                // Config for Login Form
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/home")
                 .and()
+                // Config for Logout Page
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/home")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
-//                .exceptionHandling().accessDeniedPage("/403")
-//                .and()
-//                .csrf();
+                .deleteCookies("JSESSIONID")
+                .and()
+                // When the user has logged, but access a page that requires role
+                // AccessDeniedException will throw.
+                .exceptionHandling().accessDeniedPage("/403");
     }
 }
