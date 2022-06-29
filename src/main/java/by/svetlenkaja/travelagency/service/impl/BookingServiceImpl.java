@@ -17,11 +17,12 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
 @Service
-@Transactional
+
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
@@ -29,22 +30,23 @@ public class BookingServiceImpl implements BookingService {
     private final PaymentRepository paymentRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
 
+    @Transactional
     @Override
     public Booking bookTour(Tour tour, User user) {
-        final Random RANDOM = new Random();
         //count paid tours of client
         long bookingCount = bookingRepository.getCountPaidBookingByClientId(user.getId());
-        Booking booking = new Booking();
-        booking.setOrderNumber(RANDOM.nextInt(1000) + "_" + "22");
-        booking.setClient(user);
-        booking.setTour(tour);
-        booking.setStatusType(ClassifierType.BOOKING_STATUS.getType());
-        booking.setStatusCode(BookingStatusType.OPENED.getCode());
+        //количество заказов в году
+        long nextOrderNumber = bookingRepository.findBookingsByYear(LocalDate.now().getYear()) + 1;
+        Booking booking = new Booking()
+                .setOrderNumber(nextOrderNumber + "_" + LocalDate.now().getYear())
+                .setClient(user)
+                .setTour(tour)
+                .setStatus(BookingStatusType.OPENED);
         //sale
-        double costWithSale = bookingCount > 0 ? tour.getCostWithDiscount() - (tour.getCostWithDiscount() * bookingCount / 100) : tour.getCostWithDiscount();
-        booking.setCostWithSale(costWithSale);
+        double totalCost = bookingCount > 0 ? tour.getDiscountPrice() - (tour.getDiscountPrice() * bookingCount / 100) : tour.getDiscountPrice();
+        booking.setTotalCost(totalCost);
+        booking.getTour().setState(StateType.BOOKED);
         return bookingRepository.save(booking);
-
     }
 
     @Override
@@ -54,36 +56,39 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking getBookingById(long id) {
-        try {
-            return bookingRepository.getById(id);
-        } catch (EntityNotFoundException e) {
-            throw e;
-        }
+        return bookingRepository.findById(id).orElse(null);
     }
-
+    @Transactional
     @Override
     public Payment addPayment(Payment payment) {
         Booking booking = getBookingById(payment.getBooking().getId());
         payment.setBooking(booking);
-        if (booking.getStatusCode() == BookingStatusType.OPENED.getCode()) {
-            Tour tour = booking.getTour();
-            if (tour.getStateType().equals(new Classifier(ClassifierType.STATE.getType(), StateType.CANCELLED.getCode()))) {
-                throw new BookingServiceException("Тур отменен. Оплата невозможна!!!");
-            }
-            if (tour.getStateType().equals(new Classifier(ClassifierType.STATE.getType(), StateType.PAID.getCode()))) {
-                throw new BookingServiceException("Тур уже оплачен ранее!!!");
-            }
-            try {
-                payment.getBooking().setStatusCode(BookingStatusType.PAID.getCode());
-                payment.getBooking().getTour().setStateType(new Classifier(ClassifierType.STATE.getType(), StateType.PAID.getCode()));
-                paymentRepository.saveAndFlush(payment);
-                return payment;
-            } catch (RuntimeException e) {
-                LOGGER.error("Error add tour with data: {}", payment.toString());
-                throw new BookingServiceException("Произошла ошибка при оплате заказа. Обратитесь к администратору.");
-            }
-        } else {
+        bookingIsValidate(booking);
+        try {
+            updateStateBookingAndTour(payment);
+            paymentRepository.save(payment);
+            return payment;
+        } catch (RuntimeException e) {
+            LOGGER.error("Error add tour with data: {}", payment.toString());
+            throw new BookingServiceException("Произошла ошибка при оплате заказа. Обратитесь к администратору.");
+        }
+    }
+
+    private void updateStateBookingAndTour(Payment payment) {
+        payment.getBooking().setStatusCode(BookingStatusType.PAID.getCode());
+        payment.getBooking().getTour().setStateCode(StateType.PAID.getCode());
+    }
+
+    private void bookingIsValidate(Booking booking) {
+        if (booking.getStatusCode() != BookingStatusType.OPENED.getCode()) {
             throw new BookingServiceException("Невозможно оплатить данный заказ.");
+        }
+        Tour tour = booking.getTour();
+        if (tour.getState().equals(StateType.CANCELLED)) {
+            throw new BookingServiceException("Тур отменен. Оплата невозможна!!!");
+        }
+        if (tour.getState().equals(StateType.PAID)) {
+            throw new BookingServiceException("Тур уже оплачен ранее!!!");
         }
     }
 

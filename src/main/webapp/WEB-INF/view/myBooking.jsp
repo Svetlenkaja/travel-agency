@@ -24,19 +24,24 @@
         <tr>
             <td>${booking.orderNumber}</td>
             <td>${booking.orderDate}</td>
-            <td><a href="<c:url value="/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
+            <td><a href="<c:url value="/tours/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
             <td>${booking.tour.type.classifier.name}</td>
             <td></td>
             <td>${booking.tour.dateOfDeparture}</td>
             <td>${booking.tour.numberOfNights}</td>
             <td>${booking.tour.food.classifier.name}</td>
             <td>${booking.tour.transport.name}</td>
-            <td>${booking.tour.cost}</td>
-            <td>${booking.costWithSale}</td>
-            <td>${booking.tour.stateType.name}</td>
+            <td>${booking.tour.price}</td>
+            <td>${booking.totalCost}</td>
+            <td>${booking.tour.state.classifier.name}</td>
             <td>
                 <c:if test="${booking.statusCode == 1}">
                     <a href="<c:url value="/bookings/payment/${booking.id}"/>">Оплатить</a>
+                </c:if>
+            </td>
+            <td>
+                <c:if test="${booking.statusCode == 1}">
+                    <a href="<c:url value="/bookings/cancel/${booking.id}"/>">Отменить</a>
                 </c:if>
             </td>
         </tr>

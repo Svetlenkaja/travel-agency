@@ -9,16 +9,16 @@
     <link type="text/css" rel="stylesheet" href="/resources/css/login.css" />
 </head>
 <body>
-    <spring_form:form cssClass="form" method="POST" action="/booking/addPayment" modelAttribute="payment">
+    <spring_form:form cssClass="form" method="POST" action="/bookings/addPayment" modelAttribute="payment">
         <div class="content">
             <div>
                 <h3 class="div-center">Заказ № ${payment.booking.orderNumber}</h3>
             </div>
             <div>
                 <spring_form:hidden path="booking.id" value="${payment.booking.id}" />
-                <spring_form:hidden path="sum" value="${payment.booking.costWithSale}" />
+                <spring_form:hidden path="sum" value="${payment.booking.totalCost}" />
             </div>
-            <div>Сумма к оплате: ${payment.booking.costWithSale}</div>
+            <div>Сумма к оплате: ${payment.booking.totalCost}</div>
             <br/>
             <div>
                 <spring_form:label path="payer">ФИО плательщика</spring_form:label>

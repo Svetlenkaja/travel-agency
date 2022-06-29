@@ -1,9 +1,6 @@
 package by.svetlenkaja.travelagency.model.entity;
 
-import by.svetlenkaja.travelagency.constant.ClassifierType;
-import by.svetlenkaja.travelagency.constant.FoodType;
-import by.svetlenkaja.travelagency.constant.TourType;
-import by.svetlenkaja.travelagency.constant.TransportType;
+import by.svetlenkaja.travelagency.constant.*;
 import by.svetlenkaja.travelagency.utils.CustomLocalDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -44,7 +41,7 @@ public class Tour {
     private TransportType transport;
 
     @Column(name = "food_type")
-    private  int foodType;
+    private int foodType;
 
     @Column(name="food_code")
     private int foodCode;
@@ -61,21 +58,31 @@ public class Tour {
     @Column(name = "number_of_nights")
     private int numberOfNights;
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="state_type", referencedColumnName = "type"),
-            @JoinColumn(name="state_code", referencedColumnName = "code")
-    })
-    private Classifier stateType;
 
-    @Column(name="cost")
-    private double cost;
+//    @ManyToOne
+//    @JoinColumns({
+//            @JoinColumn(name="state_type", referencedColumnName = "type"),
+//            @JoinColumn(name="state_code", referencedColumnName = "code")
+//    })
+//    private Classifier stateType;
 
-    @Column(name="cost_with_discount")
-    private double costWithDiscount;
+    @Column(name="state_type")
+    private int stateType;
+
+    @Column(name = "state_code")
+    private int stateCode;
+
+    @Transient
+    private StateType state;
+
+    @Column(name="price")
+    private double price;
 
     @Column(name="discount")
     private int discount;
+
+    @Column(name="discount_price")
+    private double discountPrice;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
@@ -92,6 +99,9 @@ public class Tour {
         if (foodCode > 0) {
             this.food = FoodType.of(foodCode);
         }
+        if (stateCode > 0) {
+            this.state = StateType.of(stateCode);
+        }
     }
 
     @PrePersist
@@ -107,6 +117,10 @@ public class Tour {
         if (food != null ) {
             this.foodType = ClassifierType.FOOD.getType();
             this.foodCode = food.getCode();
+        }
+        if (state != null){
+            this.stateType = ClassifierType.STATE.getType();
+            this.stateCode = state.getCode();
         }
     }
 }

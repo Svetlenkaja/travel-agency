@@ -5,8 +5,8 @@
     <a href="${pageContext.request.contextPath}/home">Главная</a>
     |
     <a href="${pageContext.request.contextPath}/tours">Каталог</a>
-    |
-    <a href="${pageContext.request.contextPath}/find">Подобрать тур</a>
+<%--    |--%>
+<%--    <a href="${pageContext.request.contextPath}/find">Подобрать тур</a>--%>
     <% if (request.isUserInRole("MANAGER") || request.isUserInRole("ADMIN")) { %>
     |
     <a href="${pageContext.request.contextPath}/tours/createTour">Создать тур</a>

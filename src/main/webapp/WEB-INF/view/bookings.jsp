@@ -25,11 +25,11 @@
             <td>${booking.orderNumber}</td>
             <td>${booking.client.surname} ${booking.client.name}</td>
             <td>${booking.orderDate}</td>
-            <td>${booking.statusCode}</td>
+            <td>${booking.status}</td>
             <td><a href="<c:url value="/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
             <td>${booking.tour.dateOfDeparture}</td>
-            <td>${booking.tour.cost}</td>
-            <td>${booking.costWithSale}</td>
+            <td>${booking.tour.discountPrice}</td>
+            <td>${booking.totalCost}</td>
             <td>${booking.tour.stateType.name}</td>
             <td>
                 <c:if test="${booking.statusCode == 1}">

@@ -37,7 +37,7 @@ public class TourController {
     @GetMapping("/createTour")
     public String addTourView(Model model) {
         model.addAttribute("tour", new Tour());
-        model.addAttribute("tourTypes",  TourType.values());
+        model.addAttribute("tourTypes", TourType.values());
         model.addAttribute("foodTypes", FoodType.values());
         model.addAttribute("transportTypes", TransportType.values());
         model.addAttribute("discounts", DiscountType.values());
@@ -46,59 +46,85 @@ public class TourController {
     }
 
     @InitBinder("tour")
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder) {
         //binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.FOOD.getType()));
         binder.registerCustomEditor(Country.class, new CountryEditor());
-        binder.registerCustomEditor(LocalDate.class,new LocalDateEditor());
+        binder.registerCustomEditor(LocalDate.class, new LocalDateEditor());
     }
 
     @PostMapping("/addTour")
     public String addTour(@ModelAttribute("tour") Tour tour, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "addTour";
         }
-        tour.setStateType(new Classifier(ClassifierType.STATE.getType(), StateType.AVAILABLE.getCode()));
-        if (tour.getDiscount() > 0) {
-            tour.setCostWithDiscount(tour.getCost() * (1 - tour.getDiscount() / 100));
-        } else {
-            tour.setCostWithDiscount(tour.getCost());
-        }
+
         tourService.addTour(tour);
         return "redirect:/tours";
     }
-    @GetMapping(value= {"", "/{page}"})
+
+    @GetMapping(value = {"", "/{page}"})
     public String showTourList(Model model,
-                               @PathVariable(required=false, name="page") String page) {
+                               @PathVariable(required = false, name = "page") String page,
+                               @RequestParam(required = false) String sortedType) {
         if (page == null) {
             page = "0";
         }
         int lastPage;
         long totalTours = tourRepository.count(); //total no of tours
         if (totalTours % PAGE_SIZE != 0)
-            lastPage = (int)(totalTours / PAGE_SIZE) + 1; // get last page No (zero based)
+            lastPage = (int) (totalTours / PAGE_SIZE) + 1; // get last page No (zero based)
         else
-            lastPage = (int)(totalTours / PAGE_SIZE);
+            lastPage = (int) (totalTours / PAGE_SIZE);
         model.addAttribute("currPage", page);
         model.addAttribute("lastPage", lastPage);
-        Page<Tour> tours = tourRepository.findAll(PageRequest.of(Integer.parseInt(page), PAGE_SIZE, Sort.by(Sort.Direction.ASC, "id")));
+        String sortField;
+        if (sortedType != null) {
+            switch (sortedType) {
+                case "1":
+                    sortField = "dateOfDeparture";
+                    break;
+                case "2":
+                    sortField = "discountPrice";
+                    break;
+                case "3":
+                    sortField = "numberOfNights";
+                    break;
+                default:
+                    sortField = "id";
+            }
+        } else {
+            sortField = "id";
+        }
+
+        Page<Tour> tours = tourRepository.findAll(PageRequest.of(Integer.parseInt(page), PAGE_SIZE, Sort.by(Sort.Direction.ASC, sortField)));
         model.addAttribute("tours", tours.getContent());
+        model.addAttribute("sortedValue", sortedType == null ? 0 : sortedType);
+        model.addAttribute("sortedParam", "?sortedType=" + (sortedType == null ? 0 : sortedType));
         return "tours";
     }
 
     @GetMapping("tour/{id}")
-    public String TourDetails(@PathVariable long id, Model model){
+    public String TourDetails(@PathVariable long id, Model model) {
         model.addAttribute("tour", tourService.getTourById(id));
         return "tourDetails";
     }
 
-    @GetMapping("/edit/{id}")
-    public String updateTour(@PathVariable long id, Model model){
-        //TODO
+    @GetMapping("/hot/{id}")
+    public String updateTour(@PathVariable long id, Model model) {
+        model.addAttribute("discounts", DiscountType.values());
         model.addAttribute("tour", tourService.getTourById(id));
-        return "tourDetails";
+        return "hotTour";
     }
 
-
-
+    @PostMapping("/hotTour")
+    public String setHotTour(@ModelAttribute("tour") Tour hotTour, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "addTour";
+        }
+        Tour tour = tourService.getTourById(hotTour.getId());
+        tour.setDiscount(hotTour.getDiscount());
+        tourService.updateTour(tour);
+        return "redirect:/tours";
+    }
 
 }

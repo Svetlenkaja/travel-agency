@@ -18,4 +18,5 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
 
     @Override
     long count();
+
 }

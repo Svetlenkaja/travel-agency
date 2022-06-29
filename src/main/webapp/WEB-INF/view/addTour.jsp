@@ -43,8 +43,8 @@
         <spring_form:label path="numberOfNights">Количество ночей</spring_form:label>
         <spring_form:input class="input-text input-text-small" path="numberOfNights"/>
         <br />
-        <spring_form:label path="cost">Стоимость</spring_form:label>
-        <spring_form:input class="input-text input-text-small" path="cost"/>
+        <spring_form:label path="price">Стоимость</spring_form:label>
+        <spring_form:input class="input-text input-text-small" path="price"/>
         <br />
         <spring_form:label path="discount">Скидка</spring_form:label>
         <spring_form:select path="discount">

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name= "payment")
+@NoArgsConstructor
 public class Payment {
 
     @Id
@@ -41,7 +42,7 @@ public class Payment {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     LocalDateTime paymentDate;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="booking_id")
     Booking booking;
 

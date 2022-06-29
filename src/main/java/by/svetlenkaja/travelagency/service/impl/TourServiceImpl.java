@@ -1,25 +1,19 @@
 package by.svetlenkaja.travelagency.service.impl;
 
+import by.svetlenkaja.travelagency.constant.StateType;
 import by.svetlenkaja.travelagency.exception.TourServiceException;
-import by.svetlenkaja.travelagency.model.entity.Booking;
-import by.svetlenkaja.travelagency.model.entity.Hotel;
 import by.svetlenkaja.travelagency.model.entity.Tour;
-import by.svetlenkaja.travelagency.model.entity.User;
-import by.svetlenkaja.travelagency.model.repository.BookingRepository;
 import by.svetlenkaja.travelagency.model.repository.TourRepository;
 import by.svetlenkaja.travelagency.service.TourService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+
 @RequiredArgsConstructor
 public class TourServiceImpl implements TourService {
 
@@ -32,10 +26,13 @@ public class TourServiceImpl implements TourService {
         return tourRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Tour addTour(Tour tour) {
+        tourIsValidate(tour);
+        tour.setState(StateType.AVAILABLE);
+        costCalculation(tour);
         try {
-
             return tourRepository.save(tour);
         }
         catch (RuntimeException e){
@@ -44,9 +41,38 @@ public class TourServiceImpl implements TourService {
         }
     }
 
-    @Override
-    public Tour getTourById(long id) {
-        return tourRepository.getById(id);
+    private void costCalculation(Tour tour) {
+        if (tour.getDiscount() > 0) {
+            tour.setDiscountPrice(tour.getPrice() * (1 - (double)tour.getDiscount()/100));
+        } else {
+            tour.setDiscountPrice(tour.getPrice());
+        }
     }
 
+    private void tourIsValidate(Tour tour) {
+        if (tour.getPrice() <= 0){
+            throw new TourServiceException("Стоимость тура должна быть больше 0!");
+        }
+        if (tour.getNumberOfNights() <= 0) {
+            throw new TourServiceException("Не указано количество ночей!");
+        }
+    }
+
+    @Override
+    public Tour getTourById(long id) {
+        return tourRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Tour updateTour(Tour tour) {
+        tour.setStateCode(StateType.HOT.getCode());
+        costCalculation(tour);
+        try {
+            return tourRepository.save(tour);
+        }
+        catch (RuntimeException e){
+            LOGGER.error("Error add tour with data: {}", tour.toString());
+            throw new TourServiceException("Ошибка сохранения тура. Обратитесь к администратору.");
+        }
+    }
 }
