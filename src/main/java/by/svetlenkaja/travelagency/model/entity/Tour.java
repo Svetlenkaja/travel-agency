@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -16,6 +18,7 @@ import java.time.LocalDate;
  */
 @Data
 @Entity
+@Accessors(chain = true)
 @Table(name = "tour")
 public class Tour {
     @Id

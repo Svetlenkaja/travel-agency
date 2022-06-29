@@ -30,7 +30,7 @@
             <td>${booking.tour.dateOfDeparture}</td>
             <td>${booking.tour.discountPrice}</td>
             <td>${booking.totalCost}</td>
-            <td>${booking.tour.stateType.name}</td>
+            <td>${booking.tour.state.classifier.name}</td>
             <td>
                 <c:if test="${booking.statusCode == 1}">
                     <a href="<c:url value="/bookings/cancel/${booking.id}"/>">Аннулировать</a>
