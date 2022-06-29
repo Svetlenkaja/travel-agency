@@ -1,58 +1,126 @@
 package by.svetlenkaja.travelagency.model.entity;
 
-import lombok.Data;
+import by.svetlenkaja.travelagency.constant.*;
+import by.svetlenkaja.travelagency.utils.CustomLocalDateDeserializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+/**
+ * Класс туристических туров
+ */
 @Data
 @Entity
 @Table(name = "tour")
-@Inheritance(strategy = InheritanceType.JOINED)
-
-public abstract class Tour {
+public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "tour_type", referencedColumnName = "type"),
-            @JoinColumn(name = "tour_code", referencedColumnName = "code")
-    })
-    private Classifier tourType;
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "transport_type", referencedColumnName = "type"),
-            @JoinColumn(name = "transport_code", referencedColumnName = "code")
-    })
-    private Classifier transportType;
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="food_type", referencedColumnName = "type"),
-            @JoinColumn(name="food_code", referencedColumnName = "code")
-    })
-    private Classifier foodType;
+    @Column(name = "tour_type")
+    private int tourType;
+
+    @Column(name = "tour_code")
+    private int tourCode;
+
+    @Transient
+    private TourType type;
+
+    @Column(name = "transport_type")
+    private int transportType;
+
+    @Column(name = "transport_code")
+    private int transportCode;
+
+    @Transient
+    private TransportType transport;
+
+    @Column(name = "food_type")
+    private int foodType;
+
+    @Column(name="food_code")
+    private int foodCode;
+
+    @Transient
+    private FoodType food;
 
     @Column(name = "date_of_departure")
-    private LocalDateTime dateOfDeparture;
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    private LocalDate dateOfDeparture;
 
     @Column(name = "number_of_nights")
     private int numberOfNights;
 
+
+//    @ManyToOne
+//    @JoinColumns({
+//            @JoinColumn(name="state_type", referencedColumnName = "type"),
+//            @JoinColumn(name="state_code", referencedColumnName = "code")
+//    })
+//    private Classifier stateType;
+
+    @Column(name="state_type")
+    private int stateType;
+
+    @Column(name = "state_code")
+    private int stateCode;
+
+    @Transient
+    private StateType state;
+
+    @Column(name="price")
+    private double price;
+
+    @Column(name="discount")
+    private int discount;
+
+    @Column(name="discount_price")
+    private double discountPrice;
+
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="state_type", referencedColumnName = "type"),
-            @JoinColumn(name="state_code", referencedColumnName = "code")
-    })
-    private Classifier stateType;
+    @JoinColumn(name = "country_id")
+    private Country country;
 
-    @Column(name="cost")
-    private int cost;
+    @PostLoad
+        void fillTransient(){
+        if (tourCode > 0) {
+            this.type = TourType.of(tourCode);
+        }
+        if (transportCode > 0) {
+            this.transport = TransportType.of(transportCode);
+        }
+        if (foodCode > 0) {
+            this.food = FoodType.of(foodCode);
+        }
+        if (stateCode > 0) {
+            this.state = StateType.of(stateCode);
+        }
+    }
 
-    @Column(name="cost_with_discont")
-    private int costWithDiscont;
-
-
+    @PrePersist
+    void fillPersistent() {
+        if (type != null){
+            this.tourType = ClassifierType.TOUR.getType();
+            this.tourCode = type.getCode();
+        }
+        if (transport != null ) {
+            this.transportType = ClassifierType.TRANSPORT.getType();
+            this.transportCode = transport.getCode();
+        }
+        if (food != null ) {
+            this.foodType = ClassifierType.FOOD.getType();
+            this.foodCode = food.getCode();
+        }
+        if (state != null){
+            this.stateType = ClassifierType.STATE.getType();
+            this.stateCode = state.getCode();
+        }
+    }
 }

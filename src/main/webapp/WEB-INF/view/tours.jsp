@@ -3,74 +3,80 @@
 <html>
 <head>
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/catalog.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/header.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="/resources/css/catalog.css" />
 </head>
 <body>
-<div class="content">
-    <div style="float: right; color: crimson " >
-        <%
-            if (request.getSession().getAttribute("userName") != null) {
-        %>
-        Пользователь: ${userName}
-        <%
-            }
-        %>
+    <div class="content">
+        <jsp:include page="_header.jsp" />
+        <jsp:include page="_menu.jsp" />
     </div>
-    <div >
-        <h1> Туристическая фирма </h1>
-    </div>
-    <div style="padding: 5px;">
-        <a href="${pageContext.request.contextPath}/home">Главная</a>
-        |
-        <a href="${pageContext.request.contextPath}/find">Подобрать тур</a>
-        |
-        <a href="${pageContext.request.contextPath}/personalTours">Мои туры</a>
-    </div>
-</div>
-<form class="form" action="${pageContext.request.contextPath}/list" modelAttribute="tours">
-    <div>
-        <select class="input-text" name="sortedType">
-            <option value = 0 >Выберите тип сортировки </option>
-            <option value = 1 >дате отправления</option>
-            <option value = 2 >стоимости</option>
-        </select>
-        <button  style="color: crimson; margin-top: 5px;" type="submit" value="Submit">Сортировать</button>
-    </div>
-</form>
+    <form class="form" action="${pageContext.request.contextPath}/tours" modelAttribute="tours">
+        <div>Выберите тип сортировки
+            <select class="input-text" name="sortedType">
+                <option value = 0 <c:if test="${sortedValue==0}"> selected </c:if> >По номеру </option>
+                <option value = 1 <c:if test="${sortedValue==1}"> selected </c:if> >По дате отправления</option>
+                <option value = 2 <c:if test="${sortedValue==2}"> selected </c:if> >По стоимости с учетом скидки</option>
+                <option value = 3 <c:if test="${sortedValue==2}"> selected </c:if> >По количеству ночей</option>
+            </select>
+            <button  style="color: crimson; margin-top: 5px;" type="submit" value="Submit">Сортировать</button>
+        </div>
+    </form>
     <table>
+        <% if (request.isUserInRole("MANAGER")) { %>
+            <div><a href="${pageContext.request.contextPath}/tours/createTour">Создать тур</a></div>
+        </br>
+        <% } %>
         <tr>
-            <th>№</th>
-            <th>Тип тура</th>
-            <th>Страна/курорт</th>
-            <th>Дата отправления</th>
-            <th>Количество ночей</th>
-            <th>Тип питания</th>
-            <th>Транспорт</th>
-            <th>Стоимость</th>
-            <th>Статус</th>
-            <th></th>
-            <th></th>
+            <th>№</th><th>Тип тура</th><th>Страна</th><th>Дата отправления</th><th>Количество ночей</th><th>Тип питания</th><th>Транспорт</th>
+            <th>Стоимость</th><th>Скидка</th><th>С учетом скидки</th><th>Статус</th>
         </tr>
         <c:forEach items="${tours}" var="tour" >
             <tr>
-                <td><a href="<c:url value="/tourShow?id=${tour.id}"/>">${tour.id}</a></td>
-                <td>${tour.tourType.name}</td>
-                <td>
-                    <c:if test="${tour.tourType.code==1}">
-                        ${tour.hotel.resort.country.name}/${tour.hotel.resort.name}
-                    </c:if>
-                </td>
+                <td><a href="<c:url value="/tours/tour/${tour.id}"/>">${tour.id}</a></td>
+                <td>${tour.type.classifier.name}</td>
+                <td>${tour.country.name}</td>
                 <td>${tour.dateOfDeparture}</td>
                 <td>${tour.numberOfNights}</td>
-                <td>${tour.foodType.name}</td>
-                <td>${tour.transportType.name}</td>
-                <td>${tour.cost}</td>
-                <td>${tour.stateType.name}</td>
-            <td><a href="<c:url value="/booking?id=${tour.id}"/>">Забронировать</a></td>
-            <td><a href="<c:url value="/tour?id=${tour.id}"/>">Изменить</a></td>
+                <td>${tour.food.classifier.name}</td>
+                <td>${tour.transport.name}</td>
+                <td>${tour.price}</td>
+                <td>${tour.discount} %</td>
+                <td>${tour.discountPrice}</td>
+                <td>${tour.state.classifier.name}</td>
+                <td>
+                <c:if test="${tour.stateCode < 3}">
+                    <% if (request.isUserInRole("CLIENT")) { %>
+                    <a href="<c:url value="/bookings/${tour.id}"/>">Заказать</a>
+                    <% } %>
+                </c:if>
+                </td>
+                <td>
+                    <c:if test="${tour.stateCode < 2}">
+                    <% if (request.isUserInRole("MANAGER")) { %>
+                        <a href="<c:url value="/tours/hot/${tour.id}"/>">Изменить</a>
+                    <% } %>
+                </c:if>
+                </td>
             </tr>
         </c:forEach>
     </table>
-    <div><a href="${pageContext.request.contextPath}/createTour">Создать тур</a></div>
+    </br>
+    <div>
+        <c:choose>
+            <c:when test="${currPage > 0}">
+                <span><a href="<c:url value="/tours/${currPage-1}${sortedParam}"/>">Предыдущая</a></span>
+            </c:when>
+        </c:choose>
+        <c:forEach var="i" begin="0" end="${lastPage-1 }" >
+            <span><a href="<c:url value="/tours/${i}${sortedParam}"/>">${i+1 }</a></span>   	<!-- Displaying Page No -->
+        </c:forEach>
+        <c:choose>
+            <c:when test="${currPage < lastPage}">
+                <span><a href="<c:url value="/tours/${currPage+1}${sortedParam}"/>">Следующая</a></span>
+            </c:when>
+        </c:choose>
+    </div>
 </body>
 </html>

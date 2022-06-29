@@ -1,0 +1,11 @@
+.content {
+    flex: 1 0 auto;
+    text-align: center;
+}
+.user {
+    float: right;
+    color: crimson;
+}
+.menu{
+    padding: 5px;
+}

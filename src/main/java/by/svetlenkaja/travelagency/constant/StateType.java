@@ -1,29 +1,40 @@
 package by.svetlenkaja.travelagency.constant;
 
+import by.svetlenkaja.travelagency.model.entity.Classifier;
+
+import java.util.stream.Stream;
+
 public enum StateType {
-    AVAILABLE(1,"Доступен"),
-    HOT(2, "Горящий"),
-    BOOKED(3, "Забронирован"),
-    PAID(4, "Оплачен"),
-    CANCELLED(5, "Отменен");
+    AVAILABLE(1),
+    HOT(2 ),
+    BOOKED(3),
+    PAID(4),
+    CANCELLED(5);
 
     final int code;
-    final String name;
+    private Classifier classifier;
 
-    StateType(int code, String name) {
+    StateType(int code ) {
         this.code = code;
-        this.name = name;
+        this.classifier = new Classifier();
     }
 
-    public String getName() {
-        return name;
+    public void setClassifier(Classifier classifier) {
+        this.classifier = classifier;
+    }
+
+    public Classifier getClassifier() {
+        return classifier;
     }
 
     public int getCode() {
         return code;
     }
 
-    public static String getName(StateType stateType) {
-        return stateType.getName();
+    public static StateType of(int code) {
+        return Stream.of(StateType.values())
+                .filter(t -> t.getCode() == code)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
