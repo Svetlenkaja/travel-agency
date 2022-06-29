@@ -21,35 +21,13 @@ public class LoggingAspect {
 
     @Before("allServiceMethods()")
     public void beforeAdvice(JoinPoint joinPoint) {
-        LOGGER.info("LOGGER work!!!");
         LOGGER.info( "Call method {} with args: {}", joinPoint.getSignature().getDeclaringTypeName(), Arrays.toString(joinPoint.getArgs()));
     }
-
 
     @AfterThrowing(pointcut = "allServiceMethods()", throwing = "e")
     public void inCaseOfExceptionThrowAdvice(JoinPoint joinPoint, RuntimeException e) {
         LOGGER.error("Exception in {}.{}(), messageDetails: {}", joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), e.getMessage());
     }
-
-//    @Around("allServiceMethods()")
-//    public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
-//        if (LOGGER.isDebugEnabled()) {
-//            LOGGER.debug("Enter: {}.{}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
-//                    joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
-//        }
-//        try {
-//            Object result = joinPoint.proceed();
-//            if (LOGGER.isDebugEnabled()) {
-//                LOGGER.debug("Exit: {}.{}() with result = {}", joinPoint.getSignature().getDeclaringTypeName(),
-//                        joinPoint.getSignature().getName(), result);
-//            }
-//            return result;
-//        } catch (IllegalArgumentException e) {
-//            LOGGER.error("Illegal argument: {} in {}.{}()", Arrays.toString(joinPoint.getArgs()),
-//                    joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-//            throw e;
-//        }
-//    }
 
 }

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Accessors(chain = true)
 @Table(name= "payment")
 @NoArgsConstructor
 public class Payment {

@@ -2,16 +2,12 @@ package by.svetlenkaja.travelagency.controller;
 
 import by.svetlenkaja.travelagency.model.entity.Booking;
 import by.svetlenkaja.travelagency.model.entity.Payment;
-import by.svetlenkaja.travelagency.model.entity.Tour;
 import by.svetlenkaja.travelagency.model.entity.User;
 import by.svetlenkaja.travelagency.service.BookingService;
-import by.svetlenkaja.travelagency.service.TourService;
 import lombok.AllArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,15 +17,18 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/bookings")
 public class BookingController {
-
     private final BookingService bookingService;
-    private final TourService tourService;
 
     @GetMapping("/{id}")
     public String openBooking(@PathVariable long id){
-        Tour tour = tourService.getTourById(id);
-        bookingService.bookTour(tour, (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        return "redirect:myBooking";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User user = (User) auth.getPrincipal();
+            bookingService.makeBooking(id, user);
+            return "redirect:myBooking";
+        }
+        return "403";
     }
 
     @GetMapping("/myBooking")
@@ -58,7 +57,7 @@ public class BookingController {
         if (bindingResult.hasErrors()){
             return "addTour";
         }
-        bookingService.addPayment(payment);
+        bookingService.savePayment(payment);
         return "redirect:myBooking";
     }
 
@@ -74,9 +73,13 @@ public class BookingController {
     }
 
     @GetMapping("/cancel/{bookingId}")
-    public String cancelBooking(@PathVariable (name="bookingId") long bookingId, Model model){
-        //TODO
-        Booking booking = bookingService.getBookingById(bookingId);
-        return "bookings";
+    public String cancelBooking(@PathVariable (name="bookingId") long bookingId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User user = (User) auth.getPrincipal();
+            bookingService.bookingCanceled(bookingId, user);
+            return "redirect:myBooking";
+        }
+        return "403";
     }
 }
