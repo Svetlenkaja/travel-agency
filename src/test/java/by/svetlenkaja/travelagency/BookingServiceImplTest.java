@@ -109,7 +109,11 @@ public class BookingServiceImplTest {
 
     @Test
     void successSavePayment(){
-        Booking booking = new Booking().setId(1L).setStatus(BookingStatusType.OPENED);
+        Tour tour = new Tour()
+                .setState(StateType.AVAILABLE);
+        Booking booking = new Booking().setId(1L)
+                .setStatusCode(BookingStatusType.OPENED.getCode())
+                .setTour(tour);
         Mockito.when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
         Payment payment = new Payment()
                 .setId(1L)
