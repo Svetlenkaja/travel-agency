@@ -1,9 +1,6 @@
 package by.svetlenkaja.travelagency.configuration;
 
-import by.svetlenkaja.travelagency.constant.ClassifierType;
-import by.svetlenkaja.travelagency.constant.FoodType;
-import by.svetlenkaja.travelagency.constant.StateType;
-import by.svetlenkaja.travelagency.constant.TourType;
+import by.svetlenkaja.travelagency.constant.*;
 import by.svetlenkaja.travelagency.model.repository.ClassifierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +27,10 @@ public class ClassifierConfiguration {
         }
         for (StateType stateType : StateType.values()) {
             stateType.setClassifier(classifierRepository.findByTypeAndCode(ClassifierType.STATE.getType(), stateType.getCode()));
+        }
+
+        for (BookingStatusType statusType : BookingStatusType.values()) {
+            statusType.setClassifier(classifierRepository.findByTypeAndCode(ClassifierType.BOOKING_STATUS.getType(), statusType.getCode()));
         }
 
     }

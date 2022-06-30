@@ -15,19 +15,18 @@
                 </div>
                     <% if (request.isUserInRole("ADMIN")) { %>
                         <div>
-                            <spring_form:checkboxes items="${roles}" path="roles" />
-                            <br/>
+                            <spring_form:checkboxes items="${roles}" itemLabel="name" path="roles" />
+
                         </div>
                     <% } %>
-    <%--                            <spring_form:options items="${roles}" itemValue="code" itemLabel="name"/>--%>
-
+               <br/>
                     <div>
-                        <spring_form:label path="username">Имя пользователя</spring_form:label>
+                        <spring_form:label path="username">Имя пользователя <b>*</b></spring_form:label>
                         <br/>
                         <spring_form:input class="input-text" path="username"/>
                     </div>
                     <div>
-                        <spring_form:label path="surname">Фамилия</spring_form:label>
+                        <spring_form:label path="surname">Фамилия <b>*</b></spring_form:label>
                         <br/>
                         <spring_form:input class="input-text" path="surname"/>
                     </div>
@@ -37,7 +36,7 @@
                         <spring_form:input class="input-text" path="name"/>
                     </div>
                     <div>
-                        <spring_form:label path="email">Электронная почта</spring_form:label>
+                        <spring_form:label path="email">Электронная почта <b>*</b></spring_form:label>
                         <br/>
                         <spring_form:input class="input-text" path="email"/>
                     </div>
@@ -47,18 +46,32 @@
                        <spring_form:input class="input-text" path="phone"/>
                    </div>
                     <div>
-                        <spring_form:label path="password">Пароль</spring_form:label>
+                        <spring_form:label path="password">Пароль <b>*</b></spring_form:label>
                         <br/>
                         <spring_form:input class="input-text" type="password" path="password"  />
                     </div>
                     <div>
-                        <spring_form:label path="passwordConfirm">Подтверждение пароля</spring_form:label>
+                        <spring_form:label path="passwordConfirm">Подтверждение пароля <b>*</b></spring_form:label>
                         <br/>
                         <spring_form:input class="input-text" type="password" path="passwordConfirm" />
                     </div>
                     <div>
                         <input class="input-text" type="submit" value="Зарегистрироваться"/>
                     </div>
+               <div class="message">
+                   <c:if test='${param.containsKey("errorDuplicate")}'>
+                       Пользователь с таким userName уже существует!
+                   </c:if>
+                   <c:if test='${param.containsKey("errorEmpty")}'>
+                       Не все обязательные поля заполнены!
+                   </c:if>
+                   <c:if test='${param.containsKey("errorConfirmPassword")}'>
+                       Пароль не подвержден!
+                   </c:if>
+                   <c:if test='${param.containsKey("userNotSaved")}'>
+                       Произошла ошибка при сохранении пользователя. Обратитесь к администратору!
+                   </c:if>
+               </div>
             </div>
         </spring_form:form>
     </body>

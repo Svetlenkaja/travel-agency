@@ -26,7 +26,7 @@
             <td>${booking.orderDate}</td>
             <td><a href="<c:url value="/tours/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
             <td>${booking.tour.type.classifier.name}</td>
-            <td></td>
+            <td>${booking.tour.country.name}</td>
             <td>${booking.tour.dateOfDeparture}</td>
             <td>${booking.tour.numberOfNights}</td>
             <td>${booking.tour.food.classifier.name}</td>
@@ -41,7 +41,7 @@
             </td>
             <td>
                 <c:if test="${booking.statusCode == 1}">
-                    <a href="<c:url value="/bookings/cancel/${booking.id}"/>">Отменить</a>
+                    <a href="<c:url value="/bookings/userCancel/${booking.id}"/>">Отменить</a>
                 </c:if>
             </td>
         </tr>

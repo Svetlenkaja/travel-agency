@@ -17,20 +17,20 @@
 </div>
 <table>
     <tr>
-        <th>№ заказа</th><th>Клиент</th><th>Дата заказа</th><th></th><th>№ тура</th><th>Дата отправления</th><th>Количество ночей</th><th>Тип питания</th><th>Транспорт</th>
-        <th>Стоимость</th><th>Сумма к оплате</th><th>Статус</th>
+        <th>№ заказа</th><th>Клиент</th><th>Дата заказа</th><th>№ тура</th><th>Дата отправления</th>
+        <th>Страна</th><th>Стоимость</th><th>Сумма к оплате</th><th>Статус заказа</th>
     </tr>
     <c:forEach items="${bookings}" var="booking" >
         <tr>
             <td>${booking.orderNumber}</td>
             <td>${booking.client.surname} ${booking.client.name}</td>
             <td>${booking.orderDate}</td>
-            <td>${booking.status}</td>
             <td><a href="<c:url value="/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
             <td>${booking.tour.dateOfDeparture}</td>
+            <td>${booking.tour.country.name}</td>
             <td>${booking.tour.discountPrice}</td>
             <td>${booking.totalCost}</td>
-            <td>${booking.tour.state.classifier.name}</td>
+            <td>${booking.status.classifier.name}</td>
             <td>
                 <c:if test="${booking.statusCode == 1}">
                     <a href="<c:url value="/bookings/cancel/${booking.id}"/>">Аннулировать</a>

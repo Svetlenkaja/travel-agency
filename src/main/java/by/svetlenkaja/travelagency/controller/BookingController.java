@@ -1,6 +1,10 @@
 package by.svetlenkaja.travelagency.controller;
 
+import by.svetlenkaja.travelagency.editor.CountryEditor;
+import by.svetlenkaja.travelagency.editor.LocalDateEditor;
+import by.svetlenkaja.travelagency.editor.LocalDateTimeEditor;
 import by.svetlenkaja.travelagency.model.entity.Booking;
+import by.svetlenkaja.travelagency.model.entity.Country;
 import by.svetlenkaja.travelagency.model.entity.Payment;
 import by.svetlenkaja.travelagency.model.entity.User;
 import by.svetlenkaja.travelagency.service.BookingService;
@@ -11,7 +15,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 @AllArgsConstructor
@@ -58,7 +66,7 @@ public class BookingController {
             return "addTour";
         }
         bookingService.savePayment(payment);
-        return "redirect:myBooking";
+        return "redirect:/myBooking";
     }
 
     @GetMapping("")
@@ -72,14 +80,30 @@ public class BookingController {
         return "403";
     }
 
+    @GetMapping("/userCancel/{bookingId}")
+    public String cancelMyBooking(@PathVariable (name="bookingId") long bookingId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User user = (User) auth.getPrincipal();
+            bookingService.bookingCanceled(bookingId, user);
+            return "redirect:/myBooking";
+        }
+        return "403";
+    }
+
     @GetMapping("/cancel/{bookingId}")
     public String cancelBooking(@PathVariable (name="bookingId") long bookingId){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User user = (User) auth.getPrincipal();
             bookingService.bookingCanceled(bookingId, user);
-            return "redirect:myBooking";
+            return "redirect:/bookings";
         }
         return "403";
+    }
+
+    @InitBinder("booking")
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDateTime.class, new LocalDateTimeEditor());
     }
 }

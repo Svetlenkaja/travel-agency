@@ -13,7 +13,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "select count(b.id) from booking b where client_id = :clientId and b.status_code = 2", nativeQuery = true)
     long getCountPaidBookingByClientId(long clientId);
 
-    @Query(value = "select b.* from booking b where b.client_id = :userId", nativeQuery = true)
+    @Query(value = "select b.* from booking b where b.client_id = :userId and b.status_code <> 4", nativeQuery = true)
     List<Booking> findBookingsByUser(long userId);
 
     @Query(value = "select * from booking b where b.status_code in (1, 2)", nativeQuery = true)

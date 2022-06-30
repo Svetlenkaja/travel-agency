@@ -47,7 +47,6 @@ public class TourController {
 
     @InitBinder("tour")
     public void initBinder(WebDataBinder binder) {
-        //binder.registerCustomEditor(Classifier.class, new ClassifierEditor(ClassifierType.FOOD.getType()));
         binder.registerCustomEditor(Country.class, new CountryEditor());
         binder.registerCustomEditor(LocalDate.class, new LocalDateEditor());
     }

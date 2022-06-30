@@ -61,14 +61,6 @@ public class Tour {
     @Column(name = "number_of_nights")
     private int numberOfNights;
 
-
-//    @ManyToOne
-//    @JoinColumns({
-//            @JoinColumn(name="state_type", referencedColumnName = "type"),
-//            @JoinColumn(name="state_code", referencedColumnName = "code")
-//    })
-//    private Classifier stateType;
-
     @Column(name="state_type")
     private int stateType;
 
@@ -90,6 +82,9 @@ public class Tour {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @Column(name = "sign_of_hot")
+    private boolean signOfHot;
 
     @PostLoad
         void fillTransient(){

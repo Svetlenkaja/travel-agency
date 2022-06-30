@@ -18,7 +18,7 @@
                 <option value = 0 <c:if test="${sortedValue==0}"> selected </c:if> >По номеру </option>
                 <option value = 1 <c:if test="${sortedValue==1}"> selected </c:if> >По дате отправления</option>
                 <option value = 2 <c:if test="${sortedValue==2}"> selected </c:if> >По стоимости с учетом скидки</option>
-                <option value = 3 <c:if test="${sortedValue==2}"> selected </c:if> >По количеству ночей</option>
+                <option value = 3 <c:if test="${sortedValue==3}"> selected </c:if> >По количеству ночей</option>
             </select>
             <button  style="color: crimson; margin-top: 5px;" type="submit" value="Submit">Сортировать</button>
         </div>

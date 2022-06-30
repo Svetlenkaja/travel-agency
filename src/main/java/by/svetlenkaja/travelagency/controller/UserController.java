@@ -30,11 +30,16 @@ public class UserController {
     }
 
     @PostMapping("/registerUser")
-    public String registerUser(@ModelAttribute("user") User user) {
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
         user.setRoles(List.of(RoleType.ROLE_CLIENT));
         user.setAccountNonLocked(true);
-        userService.addUser(user);
-        return "redirect:/login?register";
+        try {
+            userService.addUser(user);
+            return "redirect:/login?register";
+        } catch (RuntimeException e) {
+            String message = e.getMessage();
+            return "redirect:/register?" + message;
+        }
     }
 
     @GetMapping("/createUser")

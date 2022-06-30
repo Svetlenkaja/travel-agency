@@ -2,6 +2,7 @@ package by.svetlenkaja.travelagency.service.impl;
 
 import by.svetlenkaja.travelagency.constant.BookingStatusType;
 
+import by.svetlenkaja.travelagency.constant.RoleType;
 import by.svetlenkaja.travelagency.constant.StateType;
 import by.svetlenkaja.travelagency.exception.BookingServiceException;
 import by.svetlenkaja.travelagency.model.entity.*;
@@ -111,7 +112,12 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     @Override
     public void bookingCanceled(long id, User user) {
-        Booking booking = bookingRepository.findBookingByIdAndClient(id, user);
+        Booking booking;
+        if (user.getRoles().contains(RoleType.ROLE_CLIENT)) {
+            booking = bookingRepository.findBookingByIdAndClient(id, user);
+        } else {
+            booking = bookingRepository.getById(id);
+        }
         if (booking == null) {
             LOGGER.error("Booking with id: {} not found.", id);
             throw new BookingServiceException("Заказ не найден!!!");
