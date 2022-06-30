@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-
 @RequiredArgsConstructor
 public class TourServiceImpl implements TourService {
 
@@ -37,7 +36,7 @@ public class TourServiceImpl implements TourService {
         }
         catch (RuntimeException e){
             LOGGER.error("Error add tour with data: {}", tour.toString());
-            throw new TourServiceException("Ошибка сохранения тура. Обратитесь к администратору.");
+            throw new TourServiceException("Произошла ошибка при сохранении тура. Обратитесь к администратору!");
         }
     }
 
@@ -50,11 +49,14 @@ public class TourServiceImpl implements TourService {
     }
 
     private void tourIsValidate(Tour tour) {
+        if (tour.getType() == null) {
+            throw new TourServiceException("Не выбран тип тура!");
+        }
         if (tour.getPrice() <= 0){
             throw new TourServiceException("Стоимость тура должна быть больше 0!");
         }
         if (tour.getNumberOfNights() <= 0) {
-            throw new TourServiceException("Не указано количество ночей!");
+            throw new TourServiceException("Количество ночей должно быть больше 0!");
         }
     }
 

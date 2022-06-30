@@ -66,7 +66,7 @@ public class BookingController {
             return "addTour";
         }
         bookingService.savePayment(payment);
-        return "redirect:/myBooking";
+        return "redirect:/bookings/myBooking";
     }
 
     @GetMapping("")
@@ -86,7 +86,7 @@ public class BookingController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User user = (User) auth.getPrincipal();
             bookingService.bookingCanceled(bookingId, user);
-            return "redirect:/myBooking";
+            return "redirect:/bookings/myBooking";
         }
         return "403";
     }

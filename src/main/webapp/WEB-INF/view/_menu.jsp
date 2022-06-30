@@ -21,7 +21,7 @@
 <div class="menu">
     <c:choose>
         <c:when test="${pageContext.request.userPrincipal.name != null}">
-            Пользователь : ${pageContext.request.userPrincipal.name}
+            <b>Пользователь : ${pageContext.request.userPrincipal.name}</b>
             <% if (request.isUserInRole("CLIENT")) { %>
             |
             <a href="<c:url value="/bookings/myBooking" />">Мой профиль</a>

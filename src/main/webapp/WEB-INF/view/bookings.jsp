@@ -25,7 +25,7 @@
             <td>${booking.orderNumber}</td>
             <td>${booking.client.surname} ${booking.client.name}</td>
             <td>${booking.orderDate}</td>
-            <td><a href="<c:url value="/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
+            <td><a href="<c:url value="/tours/tour/${booking.tour.id}"/>">${booking.tour.id}</a></td>
             <td>${booking.tour.dateOfDeparture}</td>
             <td>${booking.tour.country.name}</td>
             <td>${booking.tour.discountPrice}</td>

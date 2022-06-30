@@ -15,10 +15,7 @@ import by.svetlenkaja.travelagency.service.impl.BookingServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -26,10 +23,10 @@ import java.util.Optional;
 public class BookingServiceImplTest {
 
     private User user;
-    @Spy
+    @Mock
     BookingRepository bookingRepository;
 
-    @Spy
+    @Mock
     PaymentRepository paymentRepository;
 
     @Spy
@@ -110,14 +107,14 @@ public class BookingServiceImplTest {
         Assertions.assertEquals(expectedBooking, actualBooking);
     }
 
-//    @Test
-//    void successSavePayment(){
-//        Booking booking = new Booking().setId(1L);
-//        Mockito.when(bookingService.getBookingById(1L)).thenReturn(booking);
-//        Payment payment = new Payment()
-//                .setId(1L)
-//                .setBooking(booking);
-//        bookingService.savePayment(payment);
-//        Mockito.verify(paymentRepository, Mockito.times(1)).save(payment);
-//    }
+    @Test
+    void successSavePayment(){
+        Booking booking = new Booking().setId(1L).setStatus(BookingStatusType.OPENED);
+        Mockito.when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
+        Payment payment = new Payment()
+                .setId(1L)
+                .setBooking(booking);
+        bookingService.savePayment(payment);
+        Mockito.verify(paymentRepository, Mockito.times(1)).save(payment);
+    }
 }

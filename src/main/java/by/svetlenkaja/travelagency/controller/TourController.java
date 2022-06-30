@@ -56,9 +56,20 @@ public class TourController {
         if (bindingResult.hasErrors()) {
             return "addTour";
         }
+        try {
+            tourService.addTour(tour);
+            return "redirect:/tours";
+        } catch (RuntimeException e){
+            String message = e.getMessage();
+            model.addAttribute("tourTypes", TourType.values());
+//            model.addAttribute("foodTypes", FoodType.values());
+            model.addAttribute("transportTypes", TransportType.values());
+            model.addAttribute("discounts", DiscountType.values());
+            model.addAttribute("countries", tourRepository.getCountries());
+            model.addAttribute("message", message);
+            return "addTour";
+        }
 
-        tourService.addTour(tour);
-        return "redirect:/tours";
     }
 
     @GetMapping(value = {"", "/{page}"})

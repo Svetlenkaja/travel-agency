@@ -9,8 +9,11 @@
     <link type="text/css" rel="stylesheet" href="/resources/css/login.css" />
 </head>
 <body>
-    <spring_form:form cssClass="form" method="POST" action="/bookings/addPayment" modelAttribute="payment">
-        <div class="content">
+    <div class="content">
+        <jsp:include page="_header.jsp" />
+        <jsp:include page="_menu.jsp" />
+
+        <spring_form:form method="POST" action="/bookings/addPayment" modelAttribute="payment">
             <div>
                 <h3 class="div-center">Заказ № ${payment.booking.orderNumber}</h3>
             </div>
@@ -23,7 +26,7 @@
             <div>
                 <spring_form:label path="payer">ФИО плательщика</spring_form:label>
                 <br/>
-                <spring_form:input class="input-text" path="payer"/>
+                <spring_form:input class="input-text" cssStyle="width: 250px" path="payer"/>
             </div>
             <div>
                 <spring_form:label path="cardNumber">Номер карт-счета</spring_form:label>
@@ -33,7 +36,7 @@
             <div>
                 <input class="input-text" type="submit" value="Оплатить"/>
             </div>
-        </div>
     </spring_form:form>
+    </div>
 </body>
 </html>
